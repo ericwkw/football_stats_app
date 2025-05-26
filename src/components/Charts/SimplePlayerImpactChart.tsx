@@ -269,16 +269,9 @@ const SimplePlayerImpactChart: React.FC<SimplePlayerImpactChartProps> = ({
   if (error) {
     return (
       <div className="bg-white rounded-lg shadow-md p-4">
-        <h3 className="text-lg font-semibold mb-2">Team Impact Analysis</h3>
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-          <div className="flex">
-            <div className="ml-3">
-              <p className="text-sm text-yellow-700">{error}</p>
-              <p className="mt-2 text-xs text-yellow-600">
-                Unable to load impact data. Debugging information has been logged to console.
-              </p>
-            </div>
-          </div>
+        <h3 className="text-lg font-semibold mb-2">Player Impact Analysis</h3>
+        <div className="text-center p-4 text-red-500">
+          <p>Error loading impact data.</p>
         </div>
       </div>
     );
@@ -326,32 +319,108 @@ const SimplePlayerImpactChart: React.FC<SimplePlayerImpactChartProps> = ({
   // Render chart and data
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
-      <div className="h-64 mb-6">
-        {chartData && (
-          <Bar 
-            options={chartOptions} 
-            data={chartData}
-            aria-label={`Chart showing ${playerName}'s impact on ${teamName} performance`}
-          />
-        )}
-      </div>
+      <h3 className="text-lg font-semibold mb-2">Player Impact Analysis</h3>
       
-      <div className="mt-4">
-        <h4 className="text-lg font-medium text-gray-800 mb-3">Impact Summary</h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {summary.map((stat, i) => (
-            <div key={i} className="bg-gray-50 p-3 rounded shadow-sm transition-all hover:shadow-md">
-              <div className="text-sm text-gray-500">{stat.label}</div>
-              <div className={`text-2xl font-bold ${stat.positive ? 'text-green-600' : 'text-red-600'}`}>
-                {stat.value}
-              </div>
-              <div className="text-xs text-gray-600 mt-1">{stat.description}</div>
-            </div>
-          ))}
+      {isLoading ? (
+        <div className="flex justify-center items-center p-8">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
         </div>
-      </div>
-      
-      {/* Debug data table - hidden */}
+      ) : error ? (
+        <div className="text-center p-4 text-red-500">
+          <p>Error loading impact data.</p>
+        </div>
+      ) : (
+        <div>
+          {chartData && (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Bar 
+                    options={chartOptions} 
+                    data={chartData}
+                    aria-label={`Chart showing ${playerName}'s impact on ${teamName} performance`}
+                  />
+                </div>
+                <div className="flex flex-col justify-center">
+                  <div className="bg-gray-50 p-4 rounded">
+                    <h4 className="font-medium text-gray-700 mb-2">Impact Summary</h4>
+                    
+                    <div className="mb-3">
+                      <p className="text-sm text-gray-500">Win Rate with {playerName}</p>
+                      <p className="text-xl font-bold">{winRateWith}%</p>
+                    </div>
+                    
+                    <div className="mb-3">
+                      <p className="text-sm text-gray-500">Win Rate without {playerName}</p>
+                      <p className="text-xl font-bold">{winRateWithout}%</p>
+                    </div>
+                    
+                    <div>
+                      <p className="text-sm text-gray-500">Impact Score</p>
+                      <p className={`text-xl font-bold ${
+                        winRateImpact > 0 
+                          ? 'text-green-600' 
+                          : winRateImpact < 0 
+                            ? 'text-red-600' 
+                            : ''
+                      }`}>
+                        {winRateImpact > 0 ? '+' : ''}{Math.abs(winRateImpact).toFixed(1)}%
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 bg-gray-50 p-4 rounded">
+                    <h4 className="font-medium text-gray-700 mb-2">Match Data</h4>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm text-gray-500">Matches with</p>
+                        <p className="text-lg font-semibold">{withPlayerStats.matches}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">Matches without</p>
+                        <p className="text-lg font-semibold">{withoutPlayerStats.matches}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-4 p-4 bg-gray-50 rounded">
+                <h4 className="font-medium text-gray-700 mb-2">Interpretation</h4>
+                <p className="text-sm text-gray-600">
+                  {winRateImpact > 10 ? (
+                    <>
+                      <span className="font-medium text-green-600">Strong Positive Impact:</span> {playerName} significantly improves the team's win rate by {Math.abs(winRateImpact).toFixed(1)}%.
+                    </>
+                  ) : winRateImpact > 0 ? (
+                    <>
+                      <span className="font-medium text-green-600">Positive Impact:</span> {playerName} improves the team's win rate by {Math.abs(winRateImpact).toFixed(1)}%.
+                    </>
+                  ) : winRateImpact < -10 ? (
+                    <>
+                      <span className="font-medium text-red-600">Strong Negative Impact:</span> The team's win rate decreases by {Math.abs(winRateImpact).toFixed(1)}% when {playerName} plays.
+                    </>
+                  ) : winRateImpact < 0 ? (
+                    <>
+                      <span className="font-medium text-red-600">Negative Impact:</span> The team's win rate decreases by {Math.abs(winRateImpact).toFixed(1)}% when {playerName} plays.
+                    </>
+                  ) : (
+                    <>
+                      <span className="font-medium">Neutral Impact:</span> {playerName} doesn't significantly affect the team's win rate.
+                    </>
+                  )}
+                  {withPlayerStats.matches < 5 || withoutPlayerStats.matches < 5 ? (
+                    <span className="block mt-2 text-yellow-600">
+                      Note: Limited match data available. Results may not be statistically significant.
+                    </span>
+                  ) : null}
+                </p>
+              </div>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -78,9 +78,6 @@ export default function Home() {
   const [teamStats, setTeamStats] = useState<TeamStats[]>([]);
   const [recentMatches, setRecentMatches] = useState<MatchData[]>([]);
   
-  // Debug states
-  const [debugLeaderboardsRaw, setDebugLeaderboardsRaw] = useState<string>('');
-
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -91,8 +88,6 @@ export default function Home() {
           .rpc('get_simplified_leaderboards');
         
         if (leaderboardsError) throw new Error(`Failed to fetch leaderboards: ${leaderboardsError.message}`);
-        
-        setDebugLeaderboardsRaw(JSON.stringify(leaderboardsData, null, 2));
         
         const leaderboards = leaderboardsData as Leaderboards;
         setTopScorers(leaderboards.top_scorers || []);
@@ -447,20 +442,6 @@ export default function Home() {
                 )}
               </div>
             </section>
-
-            {/* Debug Section - only visible during development */}
-            {process.env.NODE_ENV === 'development' && (
-              <section className="mb-12 p-4 bg-gray-100 rounded-lg">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">Debug Information</h2>
-                
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-2">Raw Leaderboards Data</h3>
-                  <pre className="bg-white p-4 rounded overflow-auto max-h-60 text-xs">
-                    {debugLeaderboardsRaw}
-                  </pre>
-                </div>
-              </section>
-            )}
           </>
         )}
       </main>

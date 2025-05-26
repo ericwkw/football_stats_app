@@ -144,7 +144,7 @@ const PlayerStatsComparison = ({
         ))}
       </div>
       
-      {/* Chart is already rendered above */}
+      {/* Debug table with all raw player data - hidden */}
     </div>
   );
 };

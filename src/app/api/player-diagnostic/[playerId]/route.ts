@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 
-export async function GET(
-  request: NextRequest,
-  context: { params: { playerId: string } }
-) {
+type ContextProps = {
+  params: {
+    playerId: string;
+  };
+};
+
+export async function GET(request: NextRequest, { params }: ContextProps) {
   try {
-    const playerId = context.params.playerId;
+    const playerId = params.playerId;
     console.log('Running player diagnostics for:', playerId);
     
     // 1. Get basic player info
@@ -62,8 +65,9 @@ export async function GET(
       teamPerformanceError: teamPerformanceResponse?.error
     });
     
-  } catch (error: any) {
-    console.error('Error in player diagnostic API:', error);
-    return NextResponse.json({ error: 'Server error', details: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Error in player diagnostic API:', errorMessage);
+    return NextResponse.json({ error: 'Server error', details: errorMessage }, { status: 500 });
   }
 } 

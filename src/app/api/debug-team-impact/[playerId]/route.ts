@@ -1,11 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(
-  request: NextRequest,
-  context: { params: { playerId: string } }
-) {
-  const playerId = context.params.playerId;
+type ContextProps = {
+  params: {
+    playerId: string;
+  };
+};
+
+export async function GET(request: NextRequest, { params }: ContextProps) {
+  const playerId = params.playerId;
   
   try {
     // Initialize Supabase client from environment

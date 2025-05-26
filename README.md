@@ -67,6 +67,15 @@ Or follow the detailed guide in `docs/setup/INSTALLATION_GUIDE.md`.
 - Rotate your Supabase keys regularly
 - Check `SECURITY_CHECKLIST.md` for more security tips
 
+## Deployment
+
+This project is configured for easy deployment on Vercel. Make sure to set up the following environment variables in your Vercel project:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+After setting these variables, your deployment should work correctly.
+
 ## License
 
 This project is licensed under the MIT License.

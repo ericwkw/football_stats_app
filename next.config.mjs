@@ -38,11 +38,8 @@ const nextConfig = {
     }
     return config;
   },
-  // Enable experimental features
-  experimental: {
-    serverComponentsExternalPackages: ['@nodelib/fs.scandir'],
-    esmExternals: 'loose',
-  }
+  // Next.js 15 compatible configuration
+  serverExternalPackages: ['@nodelib/fs.scandir'],
 };
 
 export default nextConfig; 

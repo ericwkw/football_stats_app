@@ -8,14 +8,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "node scripts/seed.js",
-    "seed:simple": "node scripts/simplified-seed.js",
-    "update-seed": "node scripts/update-seed.js",
     "create-exec-sql": "psql $(grep DATABASE_URL .env.local | cut -d '=' -f2) -f scripts/create_exec_sql_function.sql",
     "update-schema": "node scripts/run-sql.js scripts/update_schema.sql",
     "update-schema-js": "node scripts/update-schema.js",
     "add-mock-data": "psql -f sql/debug/anonymized_mock_data.sql $DATABASE_URL",
-"fix-team-impact": "psql -f sql/fixes/fix_team_impact_function.sql $DATABASE_URL",
+    "fix-team-impact": "psql -f sql/fixes/fix_team_impact_function.sql $DATABASE_URL",
     "test": "jest"
   },
   "dependencies": {

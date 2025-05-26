@@ -1,58 +1,50 @@
-# Football Stats App - Data Seeding Scripts
+# Football Stats App - Utility Scripts
 
-This directory contains scripts for seeding the Supabase database with sample data to visualize player impacts across multiple teams.
+This directory contains utility scripts for managing the Football Stats App.
 
 ## Scripts Overview
 
-- **seed-all.js**: Master script that runs all seeding operations in sequence
-- **seed-teams.js**: Creates three demo teams with specific IDs and colors
-- **seed-players-with-teams.js**: Creates players, matches, and their relationships
+- **run-sql.js**: Executes SQL files against the database
+- **update-schema.js**: Updates the database schema
+- **direct_function_update.js**: Updates SQL functions in the database
+- **apply_function.js**: Applies functions to the database
+- **create_exec_sql.js**: Creates SQL execution functions
 
-## What These Scripts Create
+## Database Setup
 
-### Teams
-- **FCB United** (Blue): Home team for many matches
-- **Red Team** (Red): Second main team where players switch to
-- **Blue Rovers** (Dark Blue): Third team to demonstrate player impact
-
-### Players
-- **John Doe** (Forward): Initially on FCB United, also plays for Red Team
-- **Emma Smith** (Midfielder): Initially on Red Team, also plays for FCB United
-- **Michael Johnson** (Defender): Initially on Blue Rovers, also plays for FCB United
-
-### Matches & Player Relationships
-- 7 matches between the teams
-- Players switching teams across different matches
-- Goals and assists recorded for each player
-- Team assignments tracking which player played for which team in each match
-
-## How to Run
-
-The simplest way to seed your database is to run:
+Instead of using JavaScript seeding scripts (which have been deprecated), we recommend using SQL scripts directly from the `sql/setup/` directory:
 
 ```bash
-npm run seed
-```
+# To set up the database schema
+psql -f sql/setup/complete_database_setup.sql postgres://username:password@localhost:5432/football_stats
 
-This will:
-1. Create the three teams
-2. Create the three players
-3. Create matches with player stats
-4. Create player-team assignments
+# To add sample data (if needed)
+psql -f sql/debug/anonymized_mock_data.sql postgres://username:password@localhost:5432/football_stats
+```
 
 ## Requirements
 
 - Supabase project with the proper schema already set up
 - Environment variables in `.env.local` file:
   - `NEXT_PUBLIC_SUPABASE_URL`
-  - `SUPABASE_SERVICE_KEY` (not the anon key)
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+  - `SUPABASE_SERVICE_KEY`
 
-## Purpose
+## Using the Utility Scripts
 
-These scripts help demonstrate the multi-team impact visualization features of the app, showing how players perform on different teams. After running the scripts, you can:
+The scripts in this directory are used for development and maintenance tasks:
 
-1. View John Doe's profile to see his impact on both FCB United and Red Team
-2. See Emma Smith's goal contributions for both teams
-3. Explore player combinations to see which players work well together
+1. **Running SQL Files**:
+   ```bash
+   node scripts/run-sql.js path/to/sql/file.sql
+   ```
 
-The data is specifically crafted to show statistical significance in some cases and limited data in others, to demonstrate the app's visual indicators. 
+2. **Updating Schema**:
+   ```bash
+   npm run update-schema
+   ```
+
+3. **Fixing Team Impact Functions**:
+   ```bash
+   npm run fix-team-impact
+   ``` 

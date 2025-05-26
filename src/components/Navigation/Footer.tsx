@@ -21,11 +21,6 @@ export default function Footer() {
               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Navigate</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-indigo-600 transition-colors">
-                    Home
-                  </Link>
-                </li>
-                <li>
                   <Link href="/teams" className="text-gray-600 hover:text-indigo-600 transition-colors">
                     Teams
                   </Link>

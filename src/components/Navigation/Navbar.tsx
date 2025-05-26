@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
-import { Menu, X, Home, Users, Award, Calendar, BarChart2, Shield, ExternalLink } from 'lucide-react';
+import { Menu, X, Users, Award, Calendar, BarChart2, ExternalLink } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,14 +41,6 @@ export default function Navbar() {
           {/* Desktop Navigation - only show first 2 items on medium screens */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-4">
-              <Link 
-                href="/" 
-                className={`px-3 py-2 rounded-md text-sm font-medium flex items-center ${
-                  isActive('/') ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-500'
-                }`}
-              >
-                <Home className="mr-1" size={16} /> Home
-              </Link>
               <Link 
                 href="/teams" 
                 className={`px-3 py-2 rounded-md text-sm font-medium flex items-center ${
@@ -131,15 +123,6 @@ export default function Navbar() {
       {isOpen && (
         <div>
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link 
-              href="/" 
-              className={`block px-3 py-2 rounded-md text-base font-medium flex items-center ${
-                isActive('/') ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-500'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              <Home className="mr-2" size={18} /> Home
-            </Link>
             <Link 
               href="/teams" 
               className={`block px-3 py-2 rounded-md text-base font-medium flex items-center ${

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Users, Trophy, Calendar, Home, LogOut, Upload, BarChart2 } from 'lucide-react';
+import { Menu, X, Users, Trophy, Calendar, Home, LogOut, Upload } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
 
 export default function AdminNavbar() {
@@ -82,16 +82,6 @@ export default function AdminNavbar() {
                   }`}
                 >
                   <Calendar className="mr-1" size={16} /> Matches
-                </Link>
-                <Link 
-                  href="/admin/analytics" 
-                  className={`hidden xl:flex px-3 py-2 rounded-md text-sm font-medium items-center ${
-                    isActive('/admin/analytics') 
-                      ? 'bg-gray-900 text-white' 
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                  }`}
-                >
-                  <BarChart2 className="mr-1" size={16} /> Analytics
                 </Link>
                 <Link 
                   href="/admin/import" 
@@ -192,17 +182,6 @@ export default function AdminNavbar() {
               onClick={() => setIsOpen(false)}
             >
               <Calendar className="mr-2" size={18} /> Matches
-            </Link>
-            <Link 
-              href="/admin/analytics" 
-              className={`block px-3 py-2 rounded-md text-base font-medium flex items-center ${
-                isActive('/admin/analytics') 
-                  ? 'bg-gray-900 text-white' 
-                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              <BarChart2 className="mr-2" size={18} /> Analytics
             </Link>
             <Link 
               href="/admin/import" 

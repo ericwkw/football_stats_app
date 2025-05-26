@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Database, LayoutDashboard, Users, CalendarDays, PieChart, Settings, Upload } from 'lucide-react';
+import { LayoutDashboard, Users, CalendarDays, Upload } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
 
 export default function AdminPage() {
@@ -104,44 +104,6 @@ export default function AdminPage() {
               </div>
             </Link>
             
-            {/* Stats & Analytics Tile */}
-            <Link href="/admin/analytics" className="group">
-              <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0 bg-purple-50 p-3 rounded-md">
-                    <PieChart className="h-6 w-6 text-purple-600" />
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="text-lg font-medium text-gray-900 group-hover:text-purple-600 transition-colors duration-200">
-                      Stats & Analytics
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      View detailed performance metrics
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            
-            {/* Database Management Tile */}
-            <Link href="/admin/database" className="group">
-              <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0 bg-red-50 p-3 rounded-md">
-                    <Database className="h-6 w-6 text-red-600" />
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="text-lg font-medium text-gray-900 group-hover:text-red-600 transition-colors duration-200">
-                      Database
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      Manage database configurations
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            
             {/* Import Historical Data Tile */}
             <Link href="/admin/import" className="group">
               <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
@@ -155,25 +117,6 @@ export default function AdminPage() {
                     </h3>
                     <p className="text-sm text-gray-500">
                       Import historical data from CSV files
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            
-            {/* Settings Tile */}
-            <Link href="/admin/settings" className="group">
-              <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0 bg-gray-50 p-3 rounded-md">
-                    <Settings className="h-6 w-6 text-gray-600" />
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="text-lg font-medium text-gray-900 group-hover:text-gray-600 transition-colors duration-200">
-                      Settings
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      Configure application settings
                     </p>
                   </div>
                 </div>

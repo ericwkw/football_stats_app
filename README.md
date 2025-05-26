@@ -1,6 +1,6 @@
 # Football Stats App
 
-A Next.js application for tracking and analyzing football statistics.
+A Next.js application for tracking and analyzing football statistics for teams and players.
 
 ## Features
 
@@ -18,6 +18,7 @@ A Next.js application for tracking and analyzing football statistics.
 - **CSS Framework**: Tailwind CSS
 - **Database**: Supabase (PostgreSQL)
 - **Authentication**: Supabase Auth
+- **Node.js**: v23.9.0 or higher
 
 ## Project Structure
 
@@ -51,7 +52,14 @@ The project has been organized for better maintainability:
 
 - `public/`: Static assets
 
-### Security and Environment Setup
+## Prerequisites
+
+- Node.js v23.9.0 or higher
+- npm or yarn
+- A Supabase account and project
+- PostgreSQL (if running locally)
+
+## Security and Environment Setup
 
 **IMPORTANT: Before running or deploying this application:**
 
@@ -67,19 +75,36 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 SUPABASE_SERVICE_KEY=your_supabase_service_key_here
 ```
 
-### Getting Started
+## Getting Started
 
-1. Follow the installation guide in `docs/setup/INSTALLATION_GUIDE.md`
-2. Set up the database using scripts in `sql/setup/`
-3. Run the development server:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ericwkw/football_stats_app.git
+   cd football_stats_app
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) to see the application.
+3. Follow the detailed installation guide in `docs/setup/INSTALLATION_GUIDE.md`
+
+4. Set up the database using scripts in `sql/setup/`:
+   ```bash
+   psql -f sql/setup/complete_database_setup.sql -U your_username
+   ```
+
+5. Run the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) to see the application.
 
 ## Application Features
 
@@ -89,6 +114,27 @@ Open [http://localhost:3000](http://localhost:3000) to see the application.
   - Manage Teams: Add, edit, delete teams
   - Manage Matches: Add, edit, delete matches and record player stats
   - Match Stats Page: Add player stats and assign players to teams for each match
+
+## Database Schema
+
+The application uses a relational database with the following key tables:
+- `players`: Player information and metadata
+- `teams`: Team details and configuration
+- `matches`: Match records with scores
+- `player_match_stats`: Individual player statistics for each match
+- `player_match_assignments`: Team assignments for each player in each match
+
+For a complete database schema, refer to `sql/setup/complete_database_setup.sql`.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 

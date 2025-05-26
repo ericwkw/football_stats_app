@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Users, Trophy, Calendar, Home, LogOut } from 'lucide-react';
+import { Menu, X, Users, Trophy, Calendar, Home, LogOut, Upload, BarChart2 } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
 
 export default function AdminNavbar() {
@@ -30,22 +30,32 @@ export default function AdminNavbar() {
               </Link>
             </div>
             
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - only show first 3 items on medium screens */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-center space-x-4">
                 <Link 
                   href="/admin" 
                   className={`px-3 py-2 rounded-md text-sm font-medium flex items-center ${
-                    isActive('/admin') && !isActive('/admin/players') && !isActive('/admin/teams') && !isActive('/admin/matches') 
+                    isActive('/admin') && pathname === '/admin'
                       ? 'bg-gray-900 text-white' 
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                   }`}
                 >
-                  <Home className="mr-1" size={16} /> Dashboard
+                  <Home className="mr-1" size={16} /> Home
+                </Link>
+                <Link 
+                  href="/admin/dashboard" 
+                  className={`px-3 py-2 rounded-md text-sm font-medium flex items-center ${
+                    isActive('/admin/dashboard')
+                      ? 'bg-gray-900 text-white' 
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`}
+                >
+                  <Home className="mr-1" size={16} /> Quick Stats
                 </Link>
                 <Link 
                   href="/admin/players" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium flex items-center ${
+                  className={`hidden lg:flex px-3 py-2 rounded-md text-sm font-medium items-center ${
                     isActive('/admin/players') 
                       ? 'bg-gray-900 text-white' 
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white'
@@ -55,7 +65,7 @@ export default function AdminNavbar() {
                 </Link>
                 <Link 
                   href="/admin/teams" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium flex items-center ${
+                  className={`hidden lg:flex px-3 py-2 rounded-md text-sm font-medium items-center ${
                     isActive('/admin/teams') 
                       ? 'bg-gray-900 text-white' 
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white'
@@ -65,13 +75,33 @@ export default function AdminNavbar() {
                 </Link>
                 <Link 
                   href="/admin/matches" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium flex items-center ${
+                  className={`hidden xl:flex px-3 py-2 rounded-md text-sm font-medium items-center ${
                     isActive('/admin/matches') 
                       ? 'bg-gray-900 text-white' 
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                   }`}
                 >
                   <Calendar className="mr-1" size={16} /> Matches
+                </Link>
+                <Link 
+                  href="/admin/analytics" 
+                  className={`hidden xl:flex px-3 py-2 rounded-md text-sm font-medium items-center ${
+                    isActive('/admin/analytics') 
+                      ? 'bg-gray-900 text-white' 
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`}
+                >
+                  <BarChart2 className="mr-1" size={16} /> Analytics
+                </Link>
+                <Link 
+                  href="/admin/import" 
+                  className={`hidden xl:flex px-3 py-2 rounded-md text-sm font-medium items-center ${
+                    isActive('/admin/import') 
+                      ? 'bg-gray-900 text-white' 
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`}
+                >
+                  <Upload className="mr-1" size={16} /> Import Data
                 </Link>
               </div>
             </div>
@@ -92,8 +122,8 @@ export default function AdminNavbar() {
             </button>
           </div>
           
-          {/* Mobile menu button */}
-          <div className="md:hidden">
+          {/* Mobile/Tablet menu button - show on medium screens too for some links */}
+          <div className="md:block">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
@@ -104,20 +134,31 @@ export default function AdminNavbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile/Tablet Navigation */}
       {isOpen && (
-        <div className="md:hidden">
+        <div>
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link 
               href="/admin" 
               className={`block px-3 py-2 rounded-md text-base font-medium flex items-center ${
-                isActive('/admin') && !isActive('/admin/players') && !isActive('/admin/teams') && !isActive('/admin/matches') 
+                isActive('/admin') && pathname === '/admin'
                   ? 'bg-gray-900 text-white' 
                   : 'text-gray-300 hover:bg-gray-700 hover:text-white'
               }`}
               onClick={() => setIsOpen(false)}
             >
-              <Home className="mr-2" size={18} /> Dashboard
+              <Home className="mr-2" size={18} /> Home
+            </Link>
+            <Link 
+              href="/admin/dashboard" 
+              className={`block px-3 py-2 rounded-md text-base font-medium flex items-center ${
+                isActive('/admin/dashboard')
+                  ? 'bg-gray-900 text-white' 
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              <Home className="mr-2" size={18} /> Quick Stats
             </Link>
             <Link 
               href="/admin/players" 
@@ -151,6 +192,28 @@ export default function AdminNavbar() {
               onClick={() => setIsOpen(false)}
             >
               <Calendar className="mr-2" size={18} /> Matches
+            </Link>
+            <Link 
+              href="/admin/analytics" 
+              className={`block px-3 py-2 rounded-md text-base font-medium flex items-center ${
+                isActive('/admin/analytics') 
+                  ? 'bg-gray-900 text-white' 
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              <BarChart2 className="mr-2" size={18} /> Analytics
+            </Link>
+            <Link 
+              href="/admin/import" 
+              className={`block px-3 py-2 rounded-md text-base font-medium flex items-center ${
+                isActive('/admin/import') 
+                  ? 'bg-gray-900 text-white' 
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              <Upload className="mr-2" size={18} /> Import Data
             </Link>
             <Link 
               href="/" 

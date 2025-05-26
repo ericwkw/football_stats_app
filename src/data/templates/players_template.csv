@@ -1,0 +1,6 @@
+name,position,team_id,date_of_birth,height_cm,preferred_foot,jersey_number,external_id,is_active
+John Doe,forward,team-id-001,1990-01-15,182,right,10,player-001,true
+Jane Smith,midfielder,team-id-001,1992-05-20,175,left,8,player-002,true
+David Johnson,goalkeeper,team-id-002,1988-11-30,190,right,1,player-003,true
+Michael Williams,defender,team-id-002,1991-08-12,185,right,4,player-004,true
+Sarah Brown,forward,team-id-001,1993-03-25,170,right,9,player-005,true 

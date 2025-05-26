@@ -1,0 +1,9 @@
+player_id,match_id,team_id,goals,assists,minutes_played,yellow_cards,red_cards,clean_sheet,external_id
+player-001,match-001,team-id-001,2,0,90,0,0,false,stats-001
+player-002,match-001,team-id-001,0,2,90,1,0,false,stats-002
+player-003,match-001,team-id-002,0,0,90,0,0,false,stats-003
+player-004,match-001,team-id-002,0,0,90,0,0,false,stats-004
+player-001,match-002,team-id-001,1,1,90,0,0,false,stats-005
+player-002,match-002,team-id-001,2,0,90,0,0,false,stats-006
+player-003,match-002,team-id-002,0,0,90,0,0,false,stats-007
+player-005,match-002,team-id-001,0,1,75,1,0,false,stats-008 

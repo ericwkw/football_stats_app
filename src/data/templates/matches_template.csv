@@ -1,0 +1,6 @@
+match_date,home_team_id,away_team_id,home_score,away_score,venue,match_type,notes,external_id
+2023-01-15,team-id-001,team-id-002,2,1,Home Stadium,league,Regular season match,match-001
+2023-01-22,team-id-002,team-id-001,0,3,Away Stadium,league,Regular season match,match-002
+2023-01-29,team-id-001,team-id-003,1,1,Home Stadium,friendly,Friendly match,match-003
+2023-02-05,team-id-003,team-id-001,0,2,National Stadium,cup,Cup competition,match-004
+2023-02-12,team-id-002,team-id-003,3,2,Away Stadium,league,Regular season match,match-005 

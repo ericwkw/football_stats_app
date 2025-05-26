@@ -4,13 +4,17 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 import AdminNavbar from '@/components/Navigation/AdminNavbar';
+import type { User } from '@supabase/supabase-js';
+
+// Add a comment to clarify that we're intentionally not using the main Navbar in admin pages
+// The parent layout will render the default Navbar, but we'll replace it with AdminNavbar
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -26,6 +30,24 @@ export default function AdminLayout({
     };
     checkUser();
   }, [router]);
+
+  // Add CSS that hides the main Navbar for the admin section
+  useEffect(() => {
+    // Hide the main navbar when in admin section
+    const style = document.createElement('style');
+    style.innerHTML = `
+      /* Hide the main navbar when in admin section */
+      body > nav:first-of-type {
+        display: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      // Clean up when component unmounts
+      document.head.removeChild(style);
+    };
+  }, []);
 
   if (loading) {
     return (

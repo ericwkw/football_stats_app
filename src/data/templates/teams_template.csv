@@ -1,0 +1,4 @@
+name,team_type,primary_shirt_color,secondary_shirt_color,logo_url,external_id,is_active
+Red Team,internal,#b91c1c,#f87171,,red-team-001,true
+Blue Team,internal,#1e40af,#60a5fa,,blue-team-001,true
+FCB United,external,#172554,#1e3a8a,,fcb-united-001,true 

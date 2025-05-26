@@ -3,19 +3,13 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
-import LogoutButton from '@/components/Auth/LogoutButton';
 import Link from 'next/link';
+import { Database, LayoutDashboard, Users, CalendarDays, PieChart, Settings, Upload } from 'lucide-react';
+import type { User } from '@supabase/supabase-js';
 
 export default function AdminPage() {
-  const [user, setUser] = useState<any>(null); // Consider using a more specific type for user
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [statsLoading, setStatsLoading] = useState(true);
-  const [statsError, setStatsError] = useState<string | null>(null);
-  const [summaryStats, setSummaryStats] = useState({
-    players: 0,
-    teams: 0,
-    matches: 0,
-  });
   const router = useRouter();
 
   useEffect(() => {
@@ -34,51 +28,6 @@ export default function AdminPage() {
     checkUser();
   }, [router]);
 
-  useEffect(() => {
-    if (user) {
-      const fetchSummaryStats = async () => {
-        setStatsLoading(true);
-        setStatsError(null);
-        try {
-          const [playersRes, teamsRes, matchesRes] = await Promise.all([
-            supabase.from('players').select('*', { count: 'exact', head: true }),
-            supabase.from('teams').select('*', { count: 'exact', head: true }),
-            supabase.from('matches').select('*', { count: 'exact', head: true }),
-          ]);
-
-          if (playersRes.error) throw new Error(`Players: ${playersRes.error.message}`);
-          if (teamsRes.error) throw new Error(`Teams: ${teamsRes.error.message}`);
-          if (matchesRes.error) throw new Error(`Matches: ${matchesRes.error.message}`);
-
-          setSummaryStats({
-            players: playersRes.count || 0,
-            teams: teamsRes.count || 0,
-            matches: matchesRes.count || 0,
-          });
-        } catch (error: any) {
-          console.error('Error fetching summary stats:', error);
-          setStatsError(error.message);
-        } finally {
-          setStatsLoading(false);
-        }
-      };
-      fetchSummaryStats();
-    } else {
-      // If user is null (e.g., initial state before auth check, or after logout)
-      setSummaryStats({ players: 0, teams: 0, matches: 0 }); // Reset stats
-      setStatsLoading(false); // Ensure stats are not in loading state
-    }
-  }, [user]); // Add user to dependency array to re-fetch stats if user changes
-
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('Error logging out:', error.message);
-    } else {
-      router.push('/login');
-    }
-  };
-
   if (loading) { // This is for user auth loading
     return <p>Loading...</p>;
   }
@@ -88,51 +37,151 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-2xl p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h1 className="text-3xl font-bold text-center text-gray-900">Admin Dashboard</h1>
-        <p className="text-center text-gray-700">Welcome, {user.email}!</p>
-
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg shadow">
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">Quick Stats</h2>
-          {statsLoading ? (
-            <p className="text-gray-600">Loading stats...</p>
-          ) : statsError ? (
-            <p className="text-red-500">Error loading stats: {statsError}</p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-              <div>
-                <p className="text-2xl font-bold text-indigo-600">{summaryStats.players}</p>
-                <p className="text-sm text-gray-500">Total Players</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-indigo-600">{summaryStats.teams}</p>
-                <p className="text-sm text-gray-500">Total Teams</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-indigo-600">{summaryStats.matches}</p>
-                <p className="text-sm text-gray-500">Total Matches</p>
-              </div>
-            </div>
-          )}
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white shadow">
+        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
         </div>
-
-        <div className="flex flex-col items-center space-y-4">
-          <Link href="/admin/players" className="px-6 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700">
-            Manage Players
-          </Link>
-          <Link href="/admin/matches" className="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
-            Manage Matches
-          </Link>
-          <Link href="/admin/teams" className="px-6 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700">
-            Manage Teams
-          </Link>
-          <LogoutButton />
+      </header>
+      
+      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="px-4 py-6 sm:px-0">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Dashboard Tile */}
+            <Link href="/admin/dashboard" className="group">
+              <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 bg-indigo-50 p-3 rounded-md">
+                    <LayoutDashboard className="h-6 w-6 text-indigo-600" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">
+                      Quick Stats
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      View key metrics and analytics
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            
+            {/* Manage Players Tile */}
+            <Link href="/admin/players" className="group">
+              <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 bg-blue-50 p-3 rounded-md">
+                    <Users className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg font-medium text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
+                      Manage Players
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      Add, edit, or remove player records
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            
+            {/* Manage Matches Tile */}
+            <Link href="/admin/matches" className="group">
+              <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 bg-green-50 p-3 rounded-md">
+                    <CalendarDays className="h-6 w-6 text-green-600" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg font-medium text-gray-900 group-hover:text-green-600 transition-colors duration-200">
+                      Manage Matches
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      Schedule and manage match records
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            
+            {/* Stats & Analytics Tile */}
+            <Link href="/admin/analytics" className="group">
+              <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 bg-purple-50 p-3 rounded-md">
+                    <PieChart className="h-6 w-6 text-purple-600" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg font-medium text-gray-900 group-hover:text-purple-600 transition-colors duration-200">
+                      Stats & Analytics
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      View detailed performance metrics
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            
+            {/* Database Management Tile */}
+            <Link href="/admin/database" className="group">
+              <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 bg-red-50 p-3 rounded-md">
+                    <Database className="h-6 w-6 text-red-600" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg font-medium text-gray-900 group-hover:text-red-600 transition-colors duration-200">
+                      Database
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      Manage database configurations
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            
+            {/* Import Historical Data Tile */}
+            <Link href="/admin/import" className="group">
+              <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 bg-amber-50 p-3 rounded-md">
+                    <Upload className="h-6 w-6 text-amber-600" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg font-medium text-gray-900 group-hover:text-amber-600 transition-colors duration-200">
+                      Import Data
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      Import historical data from CSV files
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            
+            {/* Settings Tile */}
+            <Link href="/admin/settings" className="group">
+              <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 bg-gray-50 p-3 rounded-md">
+                    <Settings className="h-6 w-6 text-gray-600" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg font-medium text-gray-900 group-hover:text-gray-600 transition-colors duration-200">
+                      Settings
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      Configure application settings
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
         </div>
-        <p className="mt-4 text-sm text-center text-gray-500">
-          This is a protected admin page.
-        </p>
-      </div>
+      </main>
     </div>
   );
 }

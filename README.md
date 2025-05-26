@@ -31,11 +31,19 @@ A Next.js application for tracking and analyzing football statistics.
    npm install
    ```
 
-3. Create a `.env.local` file with your Supabase credentials:
+3. Set up your environment variables:
+   ```bash
+   # Copy the example.env file and fill in your details
+   cp example.env .env.local
+   # Then edit the .env.local file with your actual credentials
+   ```
+
+   Required variables in your `.env.local`:
    ```
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
    SUPABASE_SERVICE_KEY=your_supabase_service_key_here
+   DATABASE_URL=postgres://username:password@host:port/database
    ```
 
 4. Run the development server:
@@ -54,9 +62,12 @@ A Next.js application for tracking and analyzing football statistics.
 
 ## Database Setup
 
-For a complete database setup, run:
+For a complete database setup, use the provided scripts:
 ```bash
-psql -f sql/setup/complete_database_setup.sql -U your_username
+# This uses the secure database connection script
+npm run create-exec-sql
+npm run update-schema
+npm run add-mock-data
 ```
 
 Or follow the detailed guide in `docs/setup/INSTALLATION_GUIDE.md`.
@@ -66,6 +77,7 @@ Or follow the detailed guide in `docs/setup/INSTALLATION_GUIDE.md`.
 - **NEVER** commit your `.env.local` file to the repository
 - Rotate your Supabase keys regularly
 - Check `SECURITY_CHECKLIST.md` for more security tips
+- We use secure Node.js scripts for database operations instead of exposing credentials in commands
 
 ## Deployment
 

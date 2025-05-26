@@ -10,6 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import ResponsiveChartWrapper from '../UI/ResponsiveChartWrapper';
 
 // Register ChartJS components
 ChartJS.register(
@@ -117,11 +118,9 @@ const TopAssistsChart = ({ players, limit = 10, useWeighted = true }: TopAssists
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md">
-      <div className="h-80">
-        <Bar options={options} data={data} />
-      </div>
-    </div>
+    <ResponsiveChartWrapper minWidth="400px" height="320px">
+      <Bar options={options} data={data} />
+    </ResponsiveChartWrapper>
   );
 };
 

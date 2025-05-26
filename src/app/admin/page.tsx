@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutDashboard, Users, CalendarDays, Upload } from 'lucide-react';
+import { Users, CalendarDays, Upload, BarChart2 } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
 
 export default function AdminPage() {
@@ -52,7 +52,7 @@ export default function AdminPage() {
               <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
                 <div className="flex items-center">
                   <div className="flex-shrink-0 bg-indigo-50 p-3 rounded-md">
-                    <LayoutDashboard className="h-6 w-6 text-indigo-600" />
+                    <BarChart2 className="h-6 w-6 text-indigo-600" />
                   </div>
                   <div className="ml-4">
                     <h3 className="text-lg font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">

@@ -40,6 +40,16 @@ export default function Footer() {
                     Matches
                   </Link>
                 </li>
+                <li>
+                  <Link href="/analytics" className="text-gray-600 hover:text-indigo-600 transition-colors">
+                    Analytics
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/stats" className="text-gray-600 hover:text-indigo-600 transition-colors">
+                    Statistics
+                  </Link>
+                </li>
               </ul>
             </div>
             
@@ -47,8 +57,8 @@ export default function Footer() {
               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">More</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/login" className="text-gray-600 hover:text-indigo-600 transition-colors">
-                    Admin Login
+                  <Link href="/admin" className="text-gray-600 hover:text-indigo-600 transition-colors">
+                    Admin
                   </Link>
                 </li>
               </ul>

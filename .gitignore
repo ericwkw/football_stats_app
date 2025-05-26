@@ -39,5 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# cleanup backup directories
 cleanup_backup/
 sql/cleanup_backup/
+docs/cleanup_backup/
+scripts/cleanup_backup/

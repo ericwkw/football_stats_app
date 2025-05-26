@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import Navbar from "@/components/Navigation/Navbar";
 import Footer from "@/components/Navigation/Footer";
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,6 +54,7 @@ export default function RootLayout({
           theme="light"
         />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -2,11 +2,14 @@
 
 This document explains the analytics options available for our Next.js 15.3.2 football stats application.
 
-## Current Implementation: Vercel Analytics
+## Current Implementation: Vercel Analytics and Speed Insights
 
-We've implemented Vercel Analytics, which is a lightweight, privacy-friendly analytics solution. This provides basic page view tracking, traffic sources, and user demographics without compromising performance.
+We've implemented two Vercel analytics solutions:
 
-### Key Benefits
+### 1. Vercel Analytics
+Vercel Analytics is a lightweight, privacy-friendly analytics solution that provides basic page view tracking, traffic sources, and user demographics without compromising performance.
+
+#### Key Benefits
 - First-party analytics (no third-party cookies)
 - Privacy-friendly (compliant with GDPR and other privacy regulations)
 - 44x smaller than Google Analytics
@@ -14,7 +17,7 @@ We've implemented Vercel Analytics, which is a lightweight, privacy-friendly ana
 - No impact on Core Web Vitals
 - Available on all Vercel plans
 
-### Implementation Details
+#### Implementation Details
 The implementation is in the root layout file (`src/app/layout.tsx`):
 
 ```tsx
@@ -25,6 +28,31 @@ import { Analytics } from '@vercel/analytics/react';
   <body>
     {/* ... */}
     <Analytics />
+  </body>
+</html>
+```
+
+### 2. Vercel Speed Insights
+Speed Insights provides detailed performance metrics based on Core Web Vitals, enabling data-driven decisions for optimizing site performance.
+
+#### Key Benefits
+- Monitors real user experience with Core Web Vitals metrics
+- Helps identify performance bottlenecks
+- Provides detailed dashboard with performance scores
+- Shows performance by device type, country, and route
+- Integrates seamlessly with Next.js
+
+#### Implementation Details
+The implementation is in the root layout file (`src/app/layout.tsx`):
+
+```tsx
+import { SpeedInsights } from '@vercel/speed-insights/next';
+
+// In the layout component
+<html>
+  <body>
+    {/* ... */}
+    <SpeedInsights />
   </body>
 </html>
 ```
@@ -87,8 +115,9 @@ This file runs before your application's frontend code starts executing, making 
 
 ## Choosing Between Options
 
-- **Vercel Analytics**: Best for simple needs, privacy-focused, and lightweight
+- **Vercel Analytics**: Best for simple needs, privacy-focused, and lightweight page view tracking
+- **Vercel Speed Insights**: Best for performance monitoring and Core Web Vitals tracking
 - **Google Analytics**: Best for detailed analysis, marketing campaigns, and integration with Google products
 - **Client Instrumentation**: Best for custom analytics implementation or when you need very early initialization
 
-The current implementation uses Vercel Analytics for simplicity and performance, but we can switch to Google Analytics if more detailed analytics are required. 
+The current implementation uses both Vercel Analytics for page view tracking and Vercel Speed Insights for performance monitoring to provide a comprehensive analytics solution. This combination gives us the best of both worlds without adding significant overhead to the application. 

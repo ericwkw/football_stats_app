@@ -16,7 +16,7 @@ export default function Footer() {
             </p>
           </div>
           
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-2">
             <div>
               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Navigate</h3>
               <ul className="space-y-2">
@@ -44,44 +44,8 @@ export default function Footer() {
             </div>
             
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Stats</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/stats/teams" className="text-gray-600 hover:text-indigo-600 transition-colors">
-                    Team Stats
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/stats/players" className="text-gray-600 hover:text-indigo-600 transition-colors">
-                    Player Stats
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/stats/matches" className="text-gray-600 hover:text-indigo-600 transition-colors">
-                    Match Stats
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            
-            <div className="col-span-2 sm:col-span-1">
               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">More</h3>
               <ul className="space-y-2">
-                <li>
-                  <Link href="/about" className="text-gray-600 hover:text-indigo-600 transition-colors">
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="text-gray-600 hover:text-indigo-600 transition-colors">
-                    Contact
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/privacy" className="text-gray-600 hover:text-indigo-600 transition-colors">
-                    Privacy Policy
-                  </Link>
-                </li>
                 <li>
                   <Link href="/login" className="text-gray-600 hover:text-indigo-600 transition-colors">
                     Admin Login

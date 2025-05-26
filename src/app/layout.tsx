@@ -1,3 +1,6 @@
+// Import shim first to handle Node.js built-ins
+import '@/lib/nodeShim';
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";

@@ -19,6 +19,11 @@
     "copy-templates": "node scripts/copy-templates.js",
     "prebuild": "npm run copy-templates"
   },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.7",
     "@vercel/analytics": "^1.5.0",

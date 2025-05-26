@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
 import { ToastContainer } from 'react-toastify';
 import Navbar from "@/components/Navigation/Navbar";
 import Footer from "@/components/Navigation/Footer";
-import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,7 +51,6 @@ export default function RootLayout({
           pauseOnHover
           theme="light"
         />
-        <Analytics />
       </body>
     </html>
   );

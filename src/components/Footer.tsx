@@ -21,6 +21,9 @@ export default function Footer() {
           <Link href="/matches" className="text-white hover:text-blue-300 transition-colors text-sm">
             Matches
           </Link>
+          <Link href="/analytics" className="text-white hover:text-blue-300 transition-colors text-sm">
+            Analytics
+          </Link>
           <Link href="/stats" className="text-white hover:text-blue-300 transition-colors text-sm">
             Statistics
           </Link>
@@ -28,7 +31,7 @@ export default function Footer() {
             Admin
           </Link>
         </div>
-        <p>&copy; {currentYear} Soccer Stats App. All rights reserved.</p>
+        <p>&copy; {currentYear} Football Stats App. All rights reserved.</p>
       </div>
     </footer>
   );

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 import AdminNavbar from '@/components/Navigation/AdminNavbar';
+import AdminFooter from '@/components/Navigation/AdminFooter';
 import type { User } from '@supabase/supabase-js';
 
 // Add a comment to clarify that we're intentionally not using the main Navbar in admin pages
@@ -31,13 +32,14 @@ export default function AdminLayout({
     checkUser();
   }, [router]);
 
-  // Add CSS that hides the main Navbar for the admin section
+  // Add CSS that hides the main Navbar and Footer for the admin section
   useEffect(() => {
-    // Hide the main navbar when in admin section
+    // Hide the main navbar and footer when in admin section
     const style = document.createElement('style');
     style.innerHTML = `
-      /* Hide the main navbar when in admin section */
-      body > nav:first-of-type {
+      /* Hide the main navbar and footer when in admin section */
+      body > nav:first-of-type,
+      body > footer:last-of-type {
         display: none !important;
       }
     `;
@@ -70,6 +72,7 @@ export default function AdminLayout({
       <main className="flex-grow">
         {children}
       </main>
+      <AdminFooter />
     </div>
   );
 } 

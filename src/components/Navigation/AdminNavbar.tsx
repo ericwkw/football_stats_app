@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Users, Trophy, Calendar, Home, LogOut, Upload, BarChart2, ExternalLink } from 'lucide-react';
+import { Menu, X, Users, Trophy, Calendar, LogOut, Upload, BarChart2, ExternalLink } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
 
 export default function AdminNavbar() {
@@ -33,16 +33,6 @@ export default function AdminNavbar() {
             {/* Desktop Navigation - only show first 3 items on medium screens */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-center space-x-4">
-                <Link 
-                  href="/admin" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium flex items-center ${
-                    isActive('/admin') && pathname === '/admin'
-                      ? 'bg-gray-900 text-white' 
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                  }`}
-                >
-                  <Home className="mr-1" size={16} /> Home
-                </Link>
                 <Link 
                   href="/admin/dashboard" 
                   className={`px-3 py-2 rounded-md text-sm font-medium flex items-center ${
@@ -128,17 +118,6 @@ export default function AdminNavbar() {
       {isOpen && (
         <div>
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link 
-              href="/admin" 
-              className={`block px-3 py-2 rounded-md text-base font-medium flex items-center ${
-                isActive('/admin') && pathname === '/admin'
-                  ? 'bg-gray-900 text-white' 
-                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              <Home className="mr-2" size={18} /> Home
-            </Link>
             <Link 
               href="/admin/dashboard" 
               className={`block px-3 py-2 rounded-md text-base font-medium flex items-center ${

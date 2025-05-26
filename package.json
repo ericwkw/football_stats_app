@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "dev:turbo": "next dev --turbopack",
+    "dev": "next dev --experimental-allow-node-fallback",
+    "dev:turbo": "next dev --turbopack --experimental-allow-node-fallback",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@nodelib/fs.scandir": "^4.0.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

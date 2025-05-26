@@ -29,10 +29,12 @@ const TeamPerformanceWrapper: React.FC<TeamPerformanceWrapperProps> = ({
   teamName
 }) => {
   const [performance, setPerformance] = useState<TeamPerformance[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [diagnosticData, setDiagnosticData] = useState<any>(null);
-  const [isDiagnosticLoading, setIsDiagnosticLoading] = useState(false);
+  
+  // These state variables are not used anymore since debug views are removed
+  // const [diagnosticData, setDiagnosticData] = useState<any>(null);
+  // const [isDiagnosticLoading, setIsDiagnosticLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,7 +111,8 @@ const TeamPerformanceWrapper: React.FC<TeamPerformanceWrapperProps> = ({
           }
         }
 
-        // Also fetch diagnostic data
+        // Also fetch diagnostic data - commented out as not needed anymore
+        /*
         setIsDiagnosticLoading(true);
         try {
           const diagnosticResponse = await fetch(`/api/player-diagnostic/${playerId}`);
@@ -120,6 +123,7 @@ const TeamPerformanceWrapper: React.FC<TeamPerformanceWrapperProps> = ({
         } finally {
           setIsDiagnosticLoading(false);
         }
+        */
       } catch (err) {
         console.error('Unexpected error in team performance fetch:', err);
         setError('Unexpected error fetching team data');
@@ -200,110 +204,9 @@ const TeamPerformanceWrapper: React.FC<TeamPerformanceWrapperProps> = ({
         isLoading={isLoading}
       />
       
-      {/* Debug data table */}
-      <div className="mt-8 overflow-x-auto">
-        <h3 className="text-lg font-semibold mb-2">Raw Data (Debug View)</h3>
-        <table className="min-w-full divide-y divide-gray-200 border">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Category</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Matches Played</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Wins</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Draws</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Losses</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Win Rate</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Goals Scored Avg</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Goals Conceded Avg</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {performance.map((item, index) => (
-              <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border">{item.scenario}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{item.matches_played}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{item.wins}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{item.draws}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{item.losses}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{item.win_rate}%</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{item.goals_scored_avg}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{item.goals_conceded_avg}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {/* Debug data tables - hidden */}
 
-      {/* Diagnostic data */}
-      {isDiagnosticLoading ? (
-        <div className="mt-8 p-4 bg-blue-50 rounded">
-          <p className="text-blue-700">Loading diagnostic data...</p>
-        </div>
-      ) : diagnosticData && (
-        <div className="mt-8">
-          <h3 className="text-lg font-semibold mb-2">Advanced Diagnostic Data</h3>
-          
-          {/* Player Info */}
-          <div className="bg-blue-50 p-4 rounded mb-4">
-            <h4 className="font-medium mb-2">Player Info</h4>
-            <div className="grid grid-cols-2 gap-2 text-sm">
-              <div>Player ID: {diagnosticData.player?.id}</div>
-              <div>Name: {diagnosticData.player?.name}</div>
-              <div>Position: {diagnosticData.player?.position}</div>
-              <div>Team ID: {diagnosticData.player?.team_id}</div>
-            </div>
-          </div>
-          
-          {/* Stats Summary */}
-          <div className="bg-green-50 p-4 rounded mb-4">
-            <h4 className="font-medium mb-2">Stats Summary</h4>
-            <div className="grid grid-cols-2 gap-2 text-sm">
-              <div>Assignments Count: {diagnosticData.assignments?.length || 0}</div>
-              <div>Stats Count: {diagnosticData.stats?.length || 0}</div>
-              <div>Goals: {diagnosticData.stats?.reduce((sum: number, stat: any) => sum + (stat.goals || 0), 0)}</div>
-              <div>Assists: {diagnosticData.stats?.reduce((sum: number, stat: any) => sum + (stat.assists || 0), 0)}</div>
-            </div>
-          </div>
-          
-          {/* Error Info */}
-          {(diagnosticData.assignmentsError || diagnosticData.statsError || diagnosticData.teamPerformanceError) && (
-            <div className="bg-red-50 p-4 rounded mb-4">
-              <h4 className="font-medium mb-2">Errors</h4>
-              {diagnosticData.assignmentsError && <div className="text-red-700 mb-1">Assignments: {diagnosticData.assignmentsError.message}</div>}
-              {diagnosticData.statsError && <div className="text-red-700 mb-1">Stats: {diagnosticData.statsError.message}</div>}
-              {diagnosticData.teamPerformanceError && <div className="text-red-700 mb-1">Team Performance: {diagnosticData.teamPerformanceError.message}</div>}
-            </div>
-          )}
-          
-          {/* Detailed Stats */}
-          {diagnosticData.stats?.length > 0 && (
-            <div className="mt-4">
-              <h4 className="font-medium mb-2">Match Stats Detail</h4>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 border text-sm">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Match ID</th>
-                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Goals</th>
-                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Assists</th>
-                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Minutes</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {diagnosticData.stats.map((stat: any, index: number) => (
-                      <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                        <td className="px-3 py-2 whitespace-nowrap text-gray-500 border">{stat.match_id}</td>
-                        <td className="px-3 py-2 whitespace-nowrap text-gray-500 border">{stat.goals}</td>
-                        <td className="px-3 py-2 whitespace-nowrap text-gray-500 border">{stat.assists}</td>
-                        <td className="px-3 py-2 whitespace-nowrap text-gray-500 border">{stat.minutes_played}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+      {/* Diagnostic data - hidden */}
     </div>
   );
 };

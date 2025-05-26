@@ -144,36 +144,7 @@ const PlayerStatsComparison = ({
         ))}
       </div>
       
-      {/* Debug table with all raw player data */}
-      <div className="mt-6 pt-4 border-t border-gray-200">
-        <h3 className="text-lg font-semibold mb-2">Raw Player Data (Debug View)</h3>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 border">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Player</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Matches</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Goals</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Assists</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Goals/Game</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Assists/Game</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {playerStats.map((stat, index) => (
-                <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 border">{stat.name}</td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 border">{stat.matchesPlayed}</td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 border">{stat.goals}</td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 border">{stat.assists}</td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 border">{stat.goalsPerGame}</td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 border">{stat.assistsPerGame}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      {/* Debug table with all raw player data - hidden */}
     </div>
   );
 };

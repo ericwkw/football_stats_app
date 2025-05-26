@@ -351,46 +351,7 @@ const SimplePlayerImpactChart: React.FC<SimplePlayerImpactChartProps> = ({
         </div>
       </div>
       
-      {/* Debug data table */}
-      <div className="mt-8 overflow-x-auto">
-        <h3 className="text-lg font-semibold mb-2">Raw Data (Debug View)</h3>
-        <table className="min-w-full divide-y divide-gray-200 border">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Category</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Matches Played</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Wins</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Draws</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Losses</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Win Rate</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Goals Scored Avg</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Goals Conceded Avg</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            <tr className="bg-white">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border">With Player</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{withPlayerStats.matches}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{withPlayerStats.wins}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{withPlayerStats.draws}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{withPlayerStats.losses}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{winRateWith}%</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{goalsScoredAvgWith}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{goalsConcededAvgWith}</td>
-            </tr>
-            <tr className="bg-gray-50">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border">Without Player</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{withoutPlayerStats.matches}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{withoutPlayerStats.wins}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{withoutPlayerStats.draws}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{withoutPlayerStats.losses}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{winRateWithout}%</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{goalsScoredAvgWithout}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">{goalsConcededAvgWithout}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {/* Debug data table - hidden */}
     </div>
   );
 };

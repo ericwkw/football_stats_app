@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+'use client';
+
+import React from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -7,9 +9,9 @@ import {
   Title,
   Tooltip,
   Legend,
-  TooltipItem,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { TooltipItem } from 'chart.js';
 
 // Register ChartJS components
 ChartJS.register(
@@ -47,7 +49,8 @@ const PlayerCombinationsChart: React.FC<PlayerCombinationsChartProps> = ({
   minMatches = 3,
   isLoading = false
 }) => {
-  const [showDebugTables, setShowDebugTables] = useState(false);
+  // Remove the debug table toggle
+  // const [showDebugTables, setShowDebugTables] = useState(false);
   
   // Filter combinations by minimum matches
   const filteredCombinations = combinations.filter(c => c.total_matches >= minMatches);
@@ -200,20 +203,7 @@ const PlayerCombinationsChart: React.FC<PlayerCombinationsChartProps> = ({
     <div className="bg-white rounded-lg shadow-md p-4">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 gap-2">
         <h3 className="text-lg font-semibold">Player Combinations Analysis</h3>
-        <div className="flex items-center gap-4">
-          <label className="inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              className="form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
-              checked={showDebugTables}
-              onChange={() => setShowDebugTables(!showDebugTables)}
-              aria-label="Show debug tables"
-            />
-            <span className="ml-2 text-sm text-gray-700">
-              Show debug tables
-            </span>
-          </label>
-        </div>
+        {/* Debug tables toggle removed */}
       </div>
       
       {/* Together Chart Section */}
@@ -233,124 +223,30 @@ const PlayerCombinationsChart: React.FC<PlayerCombinationsChartProps> = ({
           <p>Shows win rates for player combinations when on the same team (min {minMatches} matches together)</p>
         </div>
         
-        {/* Debug Table for Together */}
-        {showDebugTables && (
-          <div className="mt-4 overflow-x-auto">
-            <h4 className="font-semibold text-gray-700 mb-2">Debug: Player Combinations Together</h4>
-            <table className="min-w-full divide-y divide-gray-200 text-xs">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th scope="col" className="px-2 py-2 text-left text-gray-500 uppercase tracking-wider">Player 1</th>
-                  <th scope="col" className="px-2 py-2 text-left text-gray-500 uppercase tracking-wider">Player 2</th>
-                  <th scope="col" className="px-2 py-2 text-left text-gray-500 uppercase tracking-wider">Matches</th>
-                  <th scope="col" className="px-2 py-2 text-left text-gray-500 uppercase tracking-wider">Wins</th>
-                  <th scope="col" className="px-2 py-2 text-left text-gray-500 uppercase tracking-wider">Draws</th>
-                  <th scope="col" className="px-2 py-2 text-left text-gray-500 uppercase tracking-wider">Losses</th>
-                  <th scope="col" className="px-2 py-2 text-left text-gray-500 uppercase tracking-wider">Win Rate</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {topCombinationsTogether.map((combo, index) => (
-                  <tr key={`together-${index}`} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                    <td className="px-2 py-2 whitespace-nowrap">{combo.player1_name}</td>
-                    <td className="px-2 py-2 whitespace-nowrap">{combo.player2_name}</td>
-                    <td className="px-2 py-2 whitespace-nowrap">{combo.total_matches}</td>
-                    <td className="px-2 py-2 whitespace-nowrap">{combo.win_matches}</td>
-                    <td className="px-2 py-2 whitespace-nowrap">{combo.draw_matches}</td>
-                    <td className="px-2 py-2 whitespace-nowrap">{combo.loss_matches}</td>
-                    <td className="px-2 py-2 whitespace-nowrap font-bold">{combo.win_rate}%</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-        
-        {/* Top Combination Summary */}
-        {topCombinationsTogether.length > 0 ? (
-          <div className="mt-4 p-2 bg-blue-50 rounded-lg">
-            <h4 className="font-medium text-gray-700 mb-1">Top Combination</h4>
-            <p className="text-xs md:text-sm">
-              <span className="font-semibold">{topCombinationsTogether[0]?.player1_name}</span> & 
-              <span className="font-semibold"> {topCombinationsTogether[0]?.player2_name}</span>: 
-              {' '}{topCombinationsTogether[0]?.win_rate}% win rate over {topCombinationsTogether[0]?.total_matches} matches
-            </p>
-          </div>
-        ) : null}
+        {/* Debug Table for Together - hidden */}
       </div>
       
-      {/* Opponents Chart Section */}
-      <div className="pt-8 border-t border-gray-200">
-        <div className="mb-4">
-          <h4 className="text-base font-medium text-gray-800">Rivals Performance</h4>
-          <p className="text-sm text-gray-600">
-            Shows how players perform when facing each other on opposite teams. The percentage represents how often Player 1 wins against Player 2.
-          </p>
-        </div>
-        
-        {topCombinationsOpponents.length > 0 ? (
-          <>
-            <div className="h-96">
-              <Bar options={opponentsChartOptions} data={opponentsChartData} />
-            </div>
-            
-            <div className="mt-3 text-sm text-gray-500 text-center">
-              <p>Shows win rates when players face each other as opponents (Player 1 win rate vs Player 2)</p>
-            </div>
-            
-            {/* Debug Table for Opponents */}
-            {showDebugTables && (
-              <div className="mt-4 overflow-x-auto">
-                <h4 className="font-semibold text-gray-700 mb-2">Debug: Player Combinations as Opponents</h4>
-                <table className="min-w-full divide-y divide-gray-200 text-xs">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th scope="col" className="px-2 py-2 text-left text-gray-500 uppercase tracking-wider">Player 1</th>
-                      <th scope="col" className="px-2 py-2 text-left text-gray-500 uppercase tracking-wider">Player 2</th>
-                      <th scope="col" className="px-2 py-2 text-left text-gray-500 uppercase tracking-wider">Win Rate as Opponents</th>
-                      <th scope="col" className="px-2 py-2 text-left text-gray-500 uppercase tracking-wider">Interpretation</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {topCombinationsOpponents.map((combo, index) => (
-                      <tr key={`opponents-${index}`} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                        <td className="px-2 py-2 whitespace-nowrap">{combo.player1_name}</td>
-                        <td className="px-2 py-2 whitespace-nowrap">{combo.player2_name}</td>
-                        <td className="px-2 py-2 whitespace-nowrap font-bold">{combo.win_rate_as_opponents}%</td>
-                        <td className="px-2 py-2">
-                          {combo.win_rate_as_opponents && combo.win_rate_as_opponents > 50 
-                            ? `${combo.player1_name} usually beats ${combo.player2_name}` 
-                            : `${combo.player2_name} usually beats ${combo.player1_name}`}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-            
-            {/* Top Rivals Summary */}
-            <div className="mt-4 p-2 bg-red-50 rounded-lg">
-              <h4 className="font-medium text-gray-700 mb-1">Top Rivals</h4>
-              <p className="text-xs md:text-sm">
-                <span className="font-semibold">{topCombinationsOpponents[0]?.player1_name}</span> vs 
-                <span className="font-semibold"> {topCombinationsOpponents[0]?.player2_name}</span>: 
-                {' '}{topCombinationsOpponents[0]?.win_rate_as_opponents}% win rate when opposing each other
-              </p>
-              <p className="text-xs text-gray-600 mt-1">
-                {topCombinationsOpponents[0]?.win_rate_as_opponents && topCombinationsOpponents[0]?.win_rate_as_opponents > 50 
-                  ? `${topCombinationsOpponents[0]?.player1_name} usually beats ${topCombinationsOpponents[0]?.player2_name} when they play on opposite teams`
-                  : `${topCombinationsOpponents[0]?.player2_name} usually beats ${topCombinationsOpponents[0]?.player1_name} when they play on opposite teams`}
-              </p>
-            </div>
-          </>
-        ) : (
-          <div className="p-6 bg-gray-50 rounded-lg text-center">
-            <p className="text-gray-500">No data available for players as opponents</p>
-            <p className="text-sm text-gray-400 mt-1">Players need to have faced each other on opposite teams to appear here</p>
+      {/* Opponents Chart Section (if data available) */}
+      {topCombinationsOpponents.length > 0 && (
+        <div>
+          <div className="mb-4">
+            <h4 className="text-base font-medium text-gray-800">Head-to-Head Performance</h4>
+            <p className="text-sm text-gray-600">
+              Shows which players perform better when playing against each other on opposing teams.
+            </p>
           </div>
-        )}
-      </div>
+          
+          <div className="h-96">
+            <Bar options={opponentsChartOptions} data={opponentsChartData} />
+          </div>
+          
+          <div className="mt-3 text-sm text-gray-500 text-center">
+            <p>Shows win rates when players face each other on opposing teams (min {minMatches} matches)</p>
+          </div>
+          
+          {/* Debug Table for Opponents - hidden */}
+        </div>
+      )}
     </div>
   );
 };

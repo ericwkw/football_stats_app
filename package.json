@@ -1,0 +1,44 @@
+{
+  "name": "football_stats_app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "seed": "node scripts/seed.js",
+    "seed:simple": "node scripts/simplified-seed.js",
+    "update-seed": "node scripts/update-seed.js",
+    "create-exec-sql": "psql $(grep DATABASE_URL .env.local | cut -d '=' -f2) -f scripts/create_exec_sql_function.sql",
+    "update-schema": "node scripts/run-sql.js scripts/update_schema.sql",
+    "update-schema-js": "node scripts/update-schema.js",
+    "add-mock-data": "psql -f sql/debug/anonymized_mock_data.sql $DATABASE_URL",
+"fix-team-impact": "psql -f sql/fixes/fix_team_impact_function.sql $DATABASE_URL",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.7",
+    "chart.js": "^4.4.9",
+    "dotenv": "^16.5.0",
+    "lucide-react": "^0.511.0",
+    "next": "15.3.2",
+    "react": "^19.0.0",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^19.0.0",
+    "react-toastify": "^11.0.5",
+    "recharts": "^2.15.3"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

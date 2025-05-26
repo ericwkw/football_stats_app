@@ -45,11 +45,6 @@ export default function Footer() {
                     Analytics
                   </Link>
                 </li>
-                <li>
-                  <Link href="/stats" className="text-gray-600 hover:text-indigo-600 transition-colors">
-                    Statistics
-                  </Link>
-                </li>
               </ul>
             </div>
             

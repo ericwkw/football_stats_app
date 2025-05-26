@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
-import { Menu, X, Home, Users, Award, Calendar, BarChart2, Shield } from 'lucide-react';
+import { Menu, X, Home, Users, Award, Calendar, BarChart2, Shield, ExternalLink } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -89,7 +89,7 @@ export default function Navbar() {
                     isActive('/admin') ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-500'
                   }`}
                 >
-                  <Shield className="mr-1" size={16} /> Admin
+                  <ExternalLink className="mr-1" size={16} /> Admin
                 </Link>
               )}
 
@@ -185,7 +185,7 @@ export default function Navbar() {
                 }`}
                 onClick={() => setIsOpen(false)}
               >
-                <Shield className="mr-2" size={18} /> Admin
+                <ExternalLink className="mr-2" size={18} /> Admin
               </Link>
             )}
 

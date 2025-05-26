@@ -118,10 +118,10 @@ export default function AdminPage() {
                     <p className="text-sm text-gray-500">
                       Import historical data from CSV files
                     </p>
-                  </div>
-                </div>
               </div>
-            </Link>
+            </div>
+        </div>
+          </Link>
           </div>
         </div>
       </main>

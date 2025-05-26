@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { playerId: string } }
+  context: { params: { playerId: string } }
 ) {
-  const playerId = params.playerId;
+  const playerId = context.params.playerId;
   
   try {
     // Initialize Supabase client from environment

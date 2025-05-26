@@ -3,10 +3,10 @@ import { supabase } from '@/lib/supabaseClient';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { playerId: string } }
+  context: { params: { playerId: string } }
 ) {
   try {
-    const playerId = await params.playerId;
+    const playerId = context.params.playerId;
     console.log('Running player diagnostics for:', playerId);
     
     // 1. Get basic player info

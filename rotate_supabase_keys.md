@@ -1,6 +1,6 @@
 # Guide to Rotating Supabase API Keys
 
-⚠️ **IMPORTANT**: Your Supabase API keys have been exposed in version control and need to be rotated.
+This guide explains the process for regular rotation of your Supabase API keys as a security best practice.
 
 ## Steps to Rotate Your Supabase API Keys
 

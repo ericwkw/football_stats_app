@@ -16,7 +16,8 @@
     "test": "jest",
     "import-data": "ts-node src/scripts/import-historical-data.ts",
     "copy-templates": "node scripts/copy-templates.js",
-    "prebuild": "npm run copy-templates"
+    "prebuild": "npm run copy-templates",
+    "postinstall": "node node_modules/lightningcss-cli/install.js || echo 'Skipping lightningcss binary installation'"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.7",
@@ -40,8 +41,12 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
+    "lightningcss-cli": "^1.24.1",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5"
+  },
+  "overrides": {
+    "lightningcss": "^1.24.1"
   }
 }

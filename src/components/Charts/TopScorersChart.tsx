@@ -117,9 +117,11 @@ const TopScorersChart = ({ players, limit = 10, useWeighted = true }: TopScorers
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md">
-      <div className="h-80">
-        <Bar options={options} data={data} />
+    <div className="bg-white p-4 rounded-lg shadow-md overflow-hidden">
+      <div className="overflow-x-auto">
+        <div className="h-80 min-w-[400px]">
+          <Bar options={options} data={data} />
+        </div>
       </div>
     </div>
   );

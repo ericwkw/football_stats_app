@@ -6,8 +6,7 @@ This directory contains utility scripts for managing the Football Stats App.
 
 - **run-sql.js**: Executes SQL files against the database
 - **update-schema.js**: Updates the database schema
-- **direct_function_update.js**: Updates SQL functions in the database
-- **apply_function.js**: Applies functions to the database
+- **apply_function.js**: Applies SQL functions to the database
 - **create_exec_sql.js**: Creates SQL execution functions
 
 ## Database Setup

@@ -10,6 +10,7 @@ import {
   TopAssistsChart,
   GoalkeeperCleanSheetsChart 
 } from '@/components/Charts';
+import ResponsiveTableWrapper from '@/components/UI/ResponsiveTableWrapper';
 
 interface TopScorer {
   player_id: string;
@@ -204,66 +205,64 @@ export default function Home() {
                   View All Teams
                 </Link>
               </div>
-              <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Team</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">MP</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">W</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">D</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">L</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GF</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GA</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GD</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PTS</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Win %</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {teamStats.length > 0 ? (
-                        [...teamStats]
-                          .sort((a, b) => 
-                            (b.wins * 3 + b.draws) - (a.wins * 3 + a.draws) || 
-                            ((b.goals_for - b.goals_against) - (a.goals_for - a.goals_against)) ||
-                            b.goals_for - a.goals_for
-                          )
-                          .map((team, index) => {
-                            const goalDifference = team.goals_for - team.goals_against;
-                            const points = team.wins * 3 + team.draws;
-                            const winRate = team.matches_played > 0 ? Math.round((team.wins / team.matches_played) * 100) : 0;
-                            
-                            return (
-                          <tr key={team.id}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{index + 1}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{team.name}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{team.matches_played}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{team.wins}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{team.draws}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{team.losses}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{team.goals_for}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{team.goals_against}</td>
-                                <td className={`px-6 py-4 whitespace-nowrap text-sm ${goalDifference > 0 ? 'text-green-600' : goalDifference < 0 ? 'text-red-600' : 'text-gray-500'}`}>
-                                  {goalDifference > 0 ? `+${goalDifference}` : goalDifference}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">{points}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{winRate}%</td>
-                          </tr>
-                            );
-                          })
-                      ) : (
-                        <tr>
-                          <td colSpan={11} className="px-6 py-4 text-center text-sm text-gray-500">
-                            No team statistics available
-                          </td>
+              <ResponsiveTableWrapper>
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Team</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">MP</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">W</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">D</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">L</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GF</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GA</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GD</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PTS</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Win %</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {teamStats.length > 0 ? (
+                      [...teamStats]
+                        .sort((a, b) => 
+                          (b.wins * 3 + b.draws) - (a.wins * 3 + a.draws) || 
+                          ((b.goals_for - b.goals_against) - (a.goals_for - a.goals_against)) ||
+                          b.goals_for - a.goals_for
+                        )
+                        .map((team, index) => {
+                          const goalDifference = team.goals_for - team.goals_against;
+                          const points = team.wins * 3 + team.draws;
+                          const winRate = team.matches_played > 0 ? Math.round((team.wins / team.matches_played) * 100) : 0;
+                          
+                          return (
+                        <tr key={team.id}>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{index + 1}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{team.name}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{team.matches_played}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{team.wins}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{team.draws}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{team.losses}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{team.goals_for}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{team.goals_against}</td>
+                              <td className={`px-6 py-4 whitespace-nowrap text-sm ${goalDifference > 0 ? 'text-green-600' : goalDifference < 0 ? 'text-red-600' : 'text-gray-500'}`}>
+                                {goalDifference > 0 ? `+${goalDifference}` : goalDifference}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">{points}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{winRate}%</td>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+                          );
+                        })
+                    ) : (
+                      <tr>
+                        <td colSpan={11} className="px-6 py-4 text-center text-sm text-gray-500">
+                          No team statistics available
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </ResponsiveTableWrapper>
             </section>
 
             {/* Top Scorers Section */}
@@ -274,7 +273,7 @@ export default function Home() {
                   View All Players
                 </Link>
               </div>
-              <div className="bg-white shadow-md rounded-lg overflow-hidden">
+              <ResponsiveTableWrapper>
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
@@ -309,7 +308,7 @@ export default function Home() {
                     )}
                   </tbody>
                 </table>
-              </div>
+              </ResponsiveTableWrapper>
             </section>
 
             {/* Top Assists Section */}
@@ -320,7 +319,7 @@ export default function Home() {
                   View All Players
                 </Link>
               </div>
-              <div className="bg-white shadow-md rounded-lg overflow-hidden">
+              <ResponsiveTableWrapper>
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
@@ -355,7 +354,7 @@ export default function Home() {
                     )}
                   </tbody>
                 </table>
-              </div>
+              </ResponsiveTableWrapper>
             </section>
 
             {/* Top Goalkeepers Section */}
@@ -366,7 +365,7 @@ export default function Home() {
                   View All Players
                 </Link>
               </div>
-              <div className="bg-white shadow-md rounded-lg overflow-hidden">
+              <ResponsiveTableWrapper>
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
@@ -401,7 +400,7 @@ export default function Home() {
                     )}
                   </tbody>
                 </table>
-              </div>
+              </ResponsiveTableWrapper>
             </section>
 
             {/* Recent Matches Section */}

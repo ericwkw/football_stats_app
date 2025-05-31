@@ -105,6 +105,22 @@ export default function DataImportPage() {
             </div>
             
             <div>
+              <h4 className="text-lg font-medium text-gray-800">Using Team Names for Players</h4>
+              <p className="text-gray-600">
+                You can now import players using team names instead of team IDs. Simply:
+              </p>
+              <ol className="list-decimal pl-5 mt-2 space-y-1 text-gray-600">
+                <li>Select "Players (with team names)" as the data type</li>
+                <li>Download the template which uses a <code>team_name</code> column instead of <code>team_id</code></li>
+                <li>Fill in the team names exactly as they appear in your database</li>
+                <li>Upload and import as usual</li>
+              </ol>
+              <p className="text-gray-600 mt-2">
+                This simplifies the import process as you don't need to look up team UUIDs.
+              </p>
+            </div>
+            
+            <div>
               <h4 className="text-lg font-medium text-gray-800">Dry Run Mode</h4>
               <p className="text-gray-600">
                 Use "Dry Run Mode" to validate your data before making changes to the database. This will check for any formatting issues or missing required fields.

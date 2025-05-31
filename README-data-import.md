@@ -11,16 +11,26 @@ This implementation provides tools for importing historical football statistics 
 
 ## Components
 
-### 1. Import Script
+### 1. Import Scripts
 
-- **Location**: `src/scripts/import-historical-data.ts`
-- **Usage**: `npm run import-data -- --file <file> --type <type> [options]`
-- **Features**:
-  - Support for importing teams, players, matches, and player stats
-  - Validation of data before import
-  - Batch processing for large datasets
-  - Dry run mode for testing
-  - Duplicate handling
+- **Standard Import Script**:
+  - **Location**: `src/scripts/import-historical-data.ts`
+  - **Usage**: `npm run import-data -- --file <file> --type <type> [options]`
+  - **Features**:
+    - Support for importing teams, players, matches, and player stats
+    - Validation of data before import
+    - Batch processing for large datasets
+    - Dry run mode for testing
+    - Duplicate handling
+
+- **Team Name-Based Player Import** (NEW):
+  - **Location**: `src/scripts/import-players-by-team-name.ts`
+  - **Usage**: `npx ts-node src/scripts/import-players-by-team-name.ts [options] <file-path>`
+  - **Features**:
+    - Uses team names instead of UUIDs
+    - Automatically resolves team names to their database IDs
+    - Validates team existence
+    - Same batch processing and validation as standard import
 
 ### 2. Web Interface
 
@@ -42,7 +52,8 @@ This implementation provides tools for importing historical football statistics 
   - Public: `public/templates/`
 - **Templates**:
   - `teams_template.csv` - Team data template
-  - `players_template.csv` - Player data template
+  - `players_template.csv` - Player data template with team_id
+  - `players_team_name_template.csv` - NEW: Player data template using team names
   - `matches_template.csv` - Match data template
   - `player_stats_template.csv` - Player match statistics template
 
@@ -82,6 +93,20 @@ The data import system seamlessly integrates with the existing application by:
 3. Preserving referential integrity between entities
 4. Adopting the application's UI/UX design patterns
 5. Working alongside existing CRUD operations
+
+## Team Name-Based Import
+
+The new team name-based import process simplifies player data entry by:
+
+1. Using human-readable team names instead of UUIDs
+2. Automatically resolving team names to their database IDs
+3. Providing clear error messages when team names don't match database records
+4. Maintaining the same validation and batch processing capabilities
+
+To use this new import feature:
+1. Use the `players_team_name_template.csv` format with team names in the `team_name` column
+2. Run the dedicated script: `npx ts-node src/scripts/import-players-by-team-name.ts <file-path>`
+3. Check the console output for any warnings about team name resolution
 
 ## Usage
 

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-type DataType = 'matches' | 'players' | 'teams' | 'player_stats';
+type DataType = 'matches' | 'players' | 'players_team_name' | 'teams' | 'player_stats';
 
 interface ImportResult {
   success: boolean;
@@ -46,14 +46,24 @@ const ImportForm: React.FC = () => {
       // Parse the CSV file
       const fileContent = await file.text();
       
+      // Determine the API endpoint based on data type
+      let apiEndpoint = '/api/admin/import-data';
+      let apiDataType = dataType;
+      
+      // Use the special team name-based endpoint for players_team_name
+      if (dataType === 'players_team_name') {
+        apiEndpoint = '/api/admin/import-players-by-team-name';
+        apiDataType = 'players'; // The underlying data type is still 'players'
+      }
+      
       // Call the import API
-      const response = await fetch('/api/admin/import-data', {
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          dataType,
+          dataType: apiDataType,
           data: fileContent,
           dryRun: isDryRun,
           skipDuplicates: isSkipDuplicates,
@@ -88,6 +98,7 @@ const ImportForm: React.FC = () => {
     const templateUrls = {
       teams: '/api/templates/teams_template.csv',
       players: '/api/templates/players_template.csv',
+      players_team_name: '/api/templates/players_team_name_template.csv',
       matches: '/api/templates/matches_template.csv',
       player_stats: '/api/templates/player_stats_template.csv',
     };
@@ -112,7 +123,8 @@ const ImportForm: React.FC = () => {
             required
           >
             <option value="teams">Teams</option>
-            <option value="players">Players</option>
+            <option value="players">Players (with team IDs)</option>
+            <option value="players_team_name">Players (with team names)</option>
             <option value="matches">Matches</option>
             <option value="player_stats">Player Match Statistics</option>
           </select>
@@ -184,50 +196,39 @@ const ImportForm: React.FC = () => {
         </div>
       </form>
       
+      {/* Result display */}
       {result && (
-        <div className={`mt-6 p-4 rounded-md ${result.success ? 'bg-green-50' : 'bg-red-50'}`}>
-          <div className="flex">
-            <div className="flex-shrink-0">
-              {result.success ? (
-                <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              ) : (
-                <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              )}
-            </div>
-            <div className="ml-3">
-              <h3 className={`text-sm font-medium ${result.success ? 'text-green-800' : 'text-red-800'}`}>
-                {result.success ? 'Import Successful' : 'Import Failed'}
-              </h3>
-              <div className={`mt-2 text-sm ${result.success ? 'text-green-700' : 'text-red-700'}`}>
-                <p>{result.message}</p>
-                {result.success && result.records && (
-                  <p className="mt-1">Successfully processed {result.records} records.</p>
+        <div
+          className={`mt-6 p-4 rounded-md ${
+            result.success ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'
+          }`}
+        >
+          <h3 className="text-lg font-medium">
+            {result.success ? 'Import Successful' : 'Import Failed'}
+          </h3>
+          <p className="mt-2">{result.message}</p>
+          
+          {result.records !== undefined && (
+            <p className="mt-1">
+              Records processed: <span className="font-semibold">{result.records}</span>
+            </p>
+          )}
+          
+          {result.errors && result.errors.length > 0 && (
+            <div className="mt-3">
+              <h4 className="font-medium">Errors:</h4>
+              <ul className="mt-1 list-disc list-inside">
+                {result.errors.slice(0, 10).map((error, index) => (
+                  <li key={index} className="text-sm">{error}</li>
+                ))}
+                {result.errors.length > 10 && (
+                  <li className="text-sm font-medium">
+                    ... and {result.errors.length - 10} more errors
+                  </li>
                 )}
-                {result.errors && result.errors.length > 0 && (
-                  <div className="mt-2">
-                    <p className="font-semibold">Errors:</p>
-                    <ul className="list-disc pl-5 mt-1 space-y-1">
-                      {result.errors.map((error, index) => (
-                        <li key={index}>{error}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
+              </ul>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>

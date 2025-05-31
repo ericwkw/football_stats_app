@@ -188,6 +188,22 @@ const ImportForm: React.FC = () => {
           </div>
         </div>
         
+        {dataType === 'teams_simplified' && (
+          <div className="mt-4 p-4 bg-blue-50 rounded-md">
+            <h4 className="font-medium text-blue-700">Using Simplified Teams Import</h4>
+            <p className="text-sm text-blue-600 mt-1">
+              This option allows you to import teams with just names and types.
+              The system will automatically assign colors based on predefined team names:
+            </p>
+            <ul className="mt-2 text-sm text-blue-600 list-disc list-inside">
+              <li>Light Blue: #79DBFB</li>
+              <li>Red: #FF6188</li>
+              <li>Black: #000000</li>
+              <li>FCB United: #5050f0</li>
+            </ul>
+          </div>
+        )}
+        
         <div>
           <button
             type="submit"

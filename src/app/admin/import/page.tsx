@@ -121,6 +121,22 @@ export default function DataImportPage() {
             </div>
             
             <div>
+              <h4 className="text-lg font-medium text-gray-800">Simplified Team Import</h4>
+              <p className="text-gray-600">
+                For easier team creation, you can use the simplified team import:
+              </p>
+              <ol className="list-decimal pl-5 mt-2 space-y-1 text-gray-600">
+                <li>Select "Teams (simplified)" as the data type</li>
+                <li>Download the template which only requires <code>name</code> and <code>team_type</code></li>
+                <li>Choose from predefined team names (Light Blue, Red, Black, FCB United)</li>
+                <li>Upload and import as usual</li>
+              </ol>
+              <p className="text-gray-600 mt-2">
+                Team colors will be automatically mapped based on the team name, so you don't need to specify hex color codes.
+              </p>
+            </div>
+            
+            <div>
               <h4 className="text-lg font-medium text-gray-800">Dry Run Mode</h4>
               <p className="text-gray-600">
                 Use "Dry Run Mode" to validate your data before making changes to the database. This will check for any formatting issues or missing required fields.

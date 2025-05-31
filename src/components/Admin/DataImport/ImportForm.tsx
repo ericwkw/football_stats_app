@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-type DataType = 'matches' | 'players' | 'players_team_name' | 'teams' | 'player_stats';
+type DataType = 'matches' | 'players' | 'players_team_name' | 'teams' | 'teams_simplified' | 'player_stats';
 
 interface ImportResult {
   success: boolean;
@@ -55,6 +55,11 @@ const ImportForm: React.FC = () => {
         apiEndpoint = '/api/admin/import-players-by-team-name';
         apiDataType = 'players'; // The underlying data type is still 'players'
       }
+      // Use the simplified teams import endpoint
+      else if (dataType === 'teams_simplified') {
+        apiEndpoint = '/api/admin/import-teams-simplified';
+        apiDataType = 'teams'; // The underlying data type is still 'teams'
+      }
       
       // Call the import API
       const response = await fetch(apiEndpoint, {
@@ -97,6 +102,7 @@ const ImportForm: React.FC = () => {
   const downloadTemplate = () => {
     const templateUrls = {
       teams: '/api/templates/teams_template.csv',
+      teams_simplified: '/api/templates/teams_simplified_template.csv',
       players: '/api/templates/players_template.csv',
       players_team_name: '/api/templates/players_team_name_template.csv',
       matches: '/api/templates/matches_template.csv',
@@ -122,7 +128,8 @@ const ImportForm: React.FC = () => {
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             required
           >
-            <option value="teams">Teams</option>
+            <option value="teams">Teams (detailed)</option>
+            <option value="teams_simplified">Teams (simplified)</option>
             <option value="players">Players (with team IDs)</option>
             <option value="players_team_name">Players (with team names)</option>
             <option value="matches">Matches</option>

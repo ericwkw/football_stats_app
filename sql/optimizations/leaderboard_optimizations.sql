@@ -4,9 +4,7 @@
 BEGIN;
 
 -- Create or replace view for top scorers without team column
-CREATE OR REPLACE VIEW top_scorers_view
-SECURITY INVOKER
-AS
+CREATE OR REPLACE VIEW top_scorers_view AS
 SELECT
   p.id as player_id,
   p.name as player_name,
@@ -28,10 +26,13 @@ GROUP BY
 ORDER BY
   weighted_goals DESC, goals DESC, p.name;
 
+-- Set security to INVOKER for top_scorers_view
+ALTER VIEW top_scorers_view SET (security_invoker = true);
+ALTER VIEW top_scorers_view OWNER TO postgres;
+GRANT SELECT ON top_scorers_view TO authenticated;
+
 -- Create or replace view for top assists without team column
-CREATE OR REPLACE VIEW top_assists_view
-SECURITY INVOKER
-AS
+CREATE OR REPLACE VIEW top_assists_view AS
 SELECT
   p.id as player_id,
   p.name as player_name,
@@ -53,10 +54,13 @@ GROUP BY
 ORDER BY
   weighted_assists DESC, assists DESC, p.name;
 
+-- Set security to INVOKER for top_assists_view
+ALTER VIEW top_assists_view SET (security_invoker = true);
+ALTER VIEW top_assists_view OWNER TO postgres;
+GRANT SELECT ON top_assists_view TO authenticated;
+
 -- Create or replace view for top goalkeepers without team column
-CREATE OR REPLACE VIEW top_goalkeepers_view 
-SECURITY INVOKER
-AS
+CREATE OR REPLACE VIEW top_goalkeepers_view AS
 SELECT
   p.id as player_id,
   p.name as player_name,
@@ -102,13 +106,8 @@ GROUP BY
 ORDER BY
   clean_sheets DESC, clean_sheet_percentage DESC, matches_played DESC, p.name;
 
--- Set ownership and permissions for views
-ALTER VIEW top_scorers_view OWNER TO postgres;
-GRANT SELECT ON top_scorers_view TO authenticated;
-
-ALTER VIEW top_assists_view OWNER TO postgres;
-GRANT SELECT ON top_assists_view TO authenticated;
-
+-- Set security to INVOKER for top_goalkeepers_view
+ALTER VIEW top_goalkeepers_view SET (security_invoker = true);
 ALTER VIEW top_goalkeepers_view OWNER TO postgres;
 GRANT SELECT ON top_goalkeepers_view TO authenticated;
 

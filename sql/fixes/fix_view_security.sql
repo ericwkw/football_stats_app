@@ -4,9 +4,7 @@
 BEGIN;
 
 -- Update top_goalkeepers_view
-CREATE OR REPLACE VIEW top_goalkeepers_view 
-SECURITY INVOKER
-AS
+CREATE OR REPLACE VIEW top_goalkeepers_view AS
 SELECT
   p.id as player_id,
   p.name as player_name,
@@ -52,10 +50,11 @@ GROUP BY
 ORDER BY
   clean_sheets DESC, clean_sheet_percentage DESC, matches_played DESC, p.name;
 
+-- Apply SECURITY INVOKER to the view
+ALTER VIEW top_goalkeepers_view SET (security_invoker = true);
+
 -- Update top_scorers_view
-CREATE OR REPLACE VIEW top_scorers_view
-SECURITY INVOKER
-AS
+CREATE OR REPLACE VIEW top_scorers_view AS
 SELECT
   p.id as player_id,
   p.name as player_name,
@@ -77,10 +76,11 @@ GROUP BY
 ORDER BY
   weighted_goals DESC, goals DESC, p.name;
 
+-- Apply SECURITY INVOKER to the view
+ALTER VIEW top_scorers_view SET (security_invoker = true);
+
 -- Update top_assists_view
-CREATE OR REPLACE VIEW top_assists_view
-SECURITY INVOKER
-AS
+CREATE OR REPLACE VIEW top_assists_view AS
 SELECT
   p.id as player_id,
   p.name as player_name,
@@ -101,5 +101,8 @@ GROUP BY
   p.id, p.name
 ORDER BY
   weighted_assists DESC, assists DESC, p.name;
+
+-- Apply SECURITY INVOKER to the view
+ALTER VIEW top_assists_view SET (security_invoker = true);
 
 COMMIT; 

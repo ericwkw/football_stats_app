@@ -3,8 +3,13 @@
 
 BEGIN;
 
--- Update top_goalkeepers_view
-CREATE OR REPLACE VIEW top_goalkeepers_view AS
+-- First drop the existing views
+DROP VIEW IF EXISTS top_goalkeepers_view;
+DROP VIEW IF EXISTS top_scorers_view;
+DROP VIEW IF EXISTS top_assists_view;
+
+-- Create top_goalkeepers_view
+CREATE VIEW top_goalkeepers_view AS
 SELECT
   p.id as player_id,
   p.name as player_name,
@@ -53,8 +58,8 @@ ORDER BY
 -- Apply SECURITY INVOKER to the view
 ALTER VIEW top_goalkeepers_view SET (security_invoker = true);
 
--- Update top_scorers_view
-CREATE OR REPLACE VIEW top_scorers_view AS
+-- Create top_scorers_view
+CREATE VIEW top_scorers_view AS
 SELECT
   p.id as player_id,
   p.name as player_name,
@@ -79,8 +84,8 @@ ORDER BY
 -- Apply SECURITY INVOKER to the view
 ALTER VIEW top_scorers_view SET (security_invoker = true);
 
--- Update top_assists_view
-CREATE OR REPLACE VIEW top_assists_view AS
+-- Create top_assists_view
+CREATE VIEW top_assists_view AS
 SELECT
   p.id as player_id,
   p.name as player_name,
@@ -104,5 +109,15 @@ ORDER BY
 
 -- Apply SECURITY INVOKER to the view
 ALTER VIEW top_assists_view SET (security_invoker = true);
+
+-- Re-apply permissions
+ALTER VIEW top_scorers_view OWNER TO postgres;
+GRANT SELECT ON top_scorers_view TO authenticated;
+
+ALTER VIEW top_assists_view OWNER TO postgres;
+GRANT SELECT ON top_assists_view TO authenticated;
+
+ALTER VIEW top_goalkeepers_view OWNER TO postgres;
+GRANT SELECT ON top_goalkeepers_view TO authenticated;
 
 COMMIT; 

@@ -4,7 +4,9 @@
 BEGIN;
 
 -- Create or replace view for top scorers without team column
-CREATE OR REPLACE VIEW top_scorers_view AS
+CREATE OR REPLACE VIEW top_scorers_view
+SECURITY INVOKER
+AS
 SELECT
   p.id as player_id,
   p.name as player_name,
@@ -27,7 +29,9 @@ ORDER BY
   weighted_goals DESC, goals DESC, p.name;
 
 -- Create or replace view for top assists without team column
-CREATE OR REPLACE VIEW top_assists_view AS
+CREATE OR REPLACE VIEW top_assists_view
+SECURITY INVOKER
+AS
 SELECT
   p.id as player_id,
   p.name as player_name,
@@ -50,7 +54,9 @@ ORDER BY
   weighted_assists DESC, assists DESC, p.name;
 
 -- Create or replace view for top goalkeepers without team column
-CREATE OR REPLACE VIEW top_goalkeepers_view AS
+CREATE OR REPLACE VIEW top_goalkeepers_view 
+SECURITY INVOKER
+AS
 SELECT
   p.id as player_id,
   p.name as player_name,

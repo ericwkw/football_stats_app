@@ -1,0 +1,15 @@
+# Football Stats - Player Match Statistics Import Template
+# 
+# Instructions:
+# 1. Fields with * are required
+# 2. For player_name, use exact name of an existing player
+# 3. For match_date and opponent, provide enough info to identify the match
+# 4. For team_name, use the name of the team the player played for in this match
+#    (might be different from their regular team in mixed games)
+# 5. own_goals means goals scored in their own net (not goals they scored)
+#
+*player_name,*match_date,*opponent,*team_name,goals,assists,own_goals,minutes_played
+John Doe,2023-05-15,Red,Light Blue,2,1,0,90
+Jane Smith,2023-05-15,Red,Light Blue,1,2,0,90
+David Johnson,2023-05-15,Light Blue,Red,0,0,0,90
+Sarah Brown,2023-05-22,Black,Light Blue,2,0,0,85 

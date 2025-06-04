@@ -1,0 +1,15 @@
+# Football Stats - Team Import Template
+# 
+# Instructions:
+# 1. Fields with * are required
+# 2. For team_type, use one of: 'internal', 'external', 'club' 
+#    - internal: Teams within your organization
+#    - external: Opponent teams from outside
+#    - club: Use for FCB United (special designation)
+# 3. For colors, use color names or hex codes (#RRGGBB)
+#
+*name,*team_type,*primary_shirt_color,secondary_shirt_color
+Light Blue,internal,#79DBFB,#FFFFFF
+Red,internal,#FF6188,#FFFFFF
+Black,internal,#000000,#FFFFFF
+FCB United,club,#5050F0,#FFFFFF 

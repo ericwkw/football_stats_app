@@ -1,0 +1,14 @@
+# Football Stats - Player Match Assignments Template
+# 
+# Instructions:
+# 1. Fields with * are required
+# 2. This template assigns players to teams for specific matches
+# 3. Useful when players play for different teams than their usual team
+# 4. For player_name, match_date, and team_name, use exact names of existing records
+#
+*player_name,*match_date,*home_team,*away_team,*assigned_team
+John Doe,2023-05-15,Light Blue,Red,Light Blue
+Jane Smith,2023-05-15,Light Blue,Red,Light Blue
+David Johnson,2023-05-15,Light Blue,Red,Red
+Michael Williams,2023-05-15,Light Blue,Red,Red
+Sarah Brown,2023-05-22,Black,Light Blue,Light Blue 

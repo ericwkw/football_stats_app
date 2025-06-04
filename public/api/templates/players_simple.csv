@@ -1,0 +1,14 @@
+# Football Stats - Player Import Template
+# 
+# Instructions:
+# 1. Fields with * are required
+# 2. For position, use one of: 'Forward', 'Midfielder', 'Defender', 'Goalkeeper'
+# 3. For team_id, use the ID of an existing team, OR
+# 4. For team_name, use the exact name of an existing team
+#
+*name,*position,*team_name
+John Doe,Forward,Light Blue
+Jane Smith,Midfielder,Light Blue
+David Johnson,Goalkeeper,Black
+Michael Williams,Defender,Black
+Sarah Brown,Forward,Red 

@@ -27,6 +27,16 @@ Fixed in:
   - `get_player_match_statistics_nested`
   - `exec_sql` (though this intentionally uses SECURITY DEFINER for admin purposes)
 
+## Issue 3: Missing Fields in Leaderboard Views
+
+The frontend expects certain fields that were missing in some views.
+
+Fixed in:
+- `fix_leaderboard_views.sql` - Adds missing `matches_played` field to:
+  - `top_scorers_view`
+  - `top_assists_view`
+  - Also updates the `get_simplified_leaderboards` function to include this field
+
 ## How to Apply Fixes
 
 1. Log into the Supabase dashboard
@@ -36,6 +46,7 @@ Fixed in:
    - `fix_function_search_path.sql`
    - `fix_additional_function_search_paths.sql`
    - `fix_more_function_search_paths.sql`
+   - `fix_leaderboard_views.sql`
 
 ## Validation
 
@@ -43,6 +54,7 @@ After applying the fixes, verify that:
 1. All views have `security_invoker = true` setting
 2. All functions (except admin functions) use `SECURITY INVOKER`
 3. All functions have explicit `SET search_path = public`
+4. The dashboard displays leaderboards correctly without "matches_played does not exist" error
 
 ## Related Security Best Practices
 

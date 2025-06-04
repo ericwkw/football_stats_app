@@ -1433,6 +1433,8 @@ RETURNS TABLE (
   created_at timestamptz
 ) 
 LANGUAGE SQL
+SECURITY INVOKER
+SET search_path = public
 AS $$
   SELECT 
     p.id::text,
@@ -1442,9 +1444,9 @@ AS $$
     t.name as team_name,
     p.created_at
   FROM 
-    players p
+    public.players p
   JOIN
-    teams t ON p.team_id = t.id
+    public.teams t ON p.team_id = t.id
   WHERE 
     t.team_type IN ('internal', 'club')
   ORDER BY 

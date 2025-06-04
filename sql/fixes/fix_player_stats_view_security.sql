@@ -1,5 +1,13 @@
--- Create a view that joins player_match_stats with player_match_assignments
-CREATE OR REPLACE VIEW player_stats_with_assignments AS
+-- Fix security settings for player_stats_with_assignments view
+-- This script updates the view to use SECURITY INVOKER instead of SECURITY DEFINER
+
+BEGIN;
+
+-- First drop the existing view
+DROP VIEW IF EXISTS player_stats_with_assignments;
+
+-- Create the view
+CREATE VIEW player_stats_with_assignments AS
 SELECT
   pms.id,
   pms.player_id,
@@ -25,5 +33,11 @@ LEFT JOIN
 -- Apply SECURITY INVOKER to the view
 ALTER VIEW player_stats_with_assignments SET (security_invoker = true);
 
+-- Re-apply permissions
+ALTER VIEW player_stats_with_assignments OWNER TO postgres;
+GRANT SELECT ON player_stats_with_assignments TO authenticated;
+
 -- Comment on view
-COMMENT ON VIEW player_stats_with_assignments IS 'Combines player match statistics with team assignments for each match'; 
+COMMENT ON VIEW player_stats_with_assignments IS 'Combines player match statistics with team assignments for each match';
+
+COMMIT; 

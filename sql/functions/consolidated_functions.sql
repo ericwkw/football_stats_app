@@ -1668,6 +1668,8 @@ RETURNS TABLE (
   weighted_assists numeric
 ) 
 LANGUAGE SQL
+SECURITY INVOKER
+SET search_path = public
 AS $$
   SELECT 
     p.id as player_id,
@@ -1682,13 +1684,13 @@ AS $$
       END
     ), 0) as weighted_assists
   FROM 
-    players p
+    public.players p
   JOIN
-    teams t ON p.team_id = t.id
+    public.teams t ON p.team_id = t.id
   LEFT JOIN 
-    player_match_stats pms ON p.id = pms.player_id
+    public.player_match_stats pms ON p.id = pms.player_id
   LEFT JOIN
-    matches m ON pms.match_id = m.id
+    public.matches m ON pms.match_id = m.id
   WHERE
     t.team_type IN ('internal', 'club')
   GROUP BY 
@@ -1709,6 +1711,8 @@ RETURNS TABLE (
   clean_sheets bigint
 ) 
 LANGUAGE SQL
+SECURITY INVOKER
+SET search_path = public
 AS $$
   SELECT 
     p.id as player_id,
@@ -1728,15 +1732,15 @@ AS $$
       END
     ), 0)::bigint as clean_sheets
   FROM 
-    players p
+    public.players p
   JOIN
-    teams t ON p.team_id = t.id
+    public.teams t ON p.team_id = t.id
   LEFT JOIN 
-    player_match_stats pms ON p.id = pms.player_id
+    public.player_match_stats pms ON p.id = pms.player_id
   LEFT JOIN
-    matches m ON pms.match_id = m.id
+    public.matches m ON pms.match_id = m.id
   LEFT JOIN
-    player_match_assignments pma ON pma.player_id = p.id AND pma.match_id = m.id
+    public.player_match_assignments pma ON pma.player_id = p.id AND pma.match_id = m.id
   WHERE
     t.team_type IN ('internal', 'club')
     AND p.position = 'Goalkeeper'

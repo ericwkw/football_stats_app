@@ -37,6 +37,14 @@ Fixed in:
   - `top_assists_view`
   - Also updates the `get_simplified_leaderboards` function to include this field
 
+## Issue 4: Missing Own Goals Field in Player Stats View
+
+The player details page expects an `own_goals` field that was missing from the `player_stats_with_assignments` view.
+
+Fixed in:
+- `fix_player_view_own_goals.sql` - Adds missing `own_goals` field to:
+  - `player_stats_with_assignments` view
+
 ## How to Apply Fixes
 
 1. Log into the Supabase dashboard
@@ -47,6 +55,7 @@ Fixed in:
    - `fix_additional_function_search_paths.sql`
    - `fix_more_function_search_paths.sql`
    - `fix_leaderboard_views.sql`
+   - `fix_player_view_own_goals.sql`
 
 ## Validation
 
@@ -55,6 +64,7 @@ After applying the fixes, verify that:
 2. All functions (except admin functions) use `SECURITY INVOKER`
 3. All functions have explicit `SET search_path = public`
 4. The dashboard displays leaderboards correctly without "matches_played does not exist" error
+5. Player details pages display correctly without "own_goals does not exist" error
 
 ## Related Security Best Practices
 

@@ -42,6 +42,14 @@ The fix involves creating separate policies for each specific action type to avo
 2. Create separate policies for each write operation (INSERT, UPDATE, DELETE) that only apply to authenticated users
 
 ```sql
+-- First, drop ALL existing policies to avoid conflicts
+DROP POLICY IF EXISTS "Allow public read access" ON public.table_name;
+DROP POLICY IF EXISTS "Allow admin write access" ON public.table_name;
+DROP POLICY IF EXISTS "Allow admin insert" ON public.table_name;
+DROP POLICY IF EXISTS "Allow admin update" ON public.table_name;
+DROP POLICY IF EXISTS "Allow admin delete" ON public.table_name;
+DROP POLICY IF EXISTS "Allow admin write operations" ON public.table_name;
+
 -- For read access (anyone can read)
 CREATE POLICY "Allow public read access" ON public.table_name
 FOR SELECT
@@ -65,6 +73,10 @@ USING ((SELECT auth.role()) = 'authenticated');
 ```
 
 This approach ensures there is only one policy per action type, avoiding the performance penalty of multiple permissive policies.
+
+### Handling Existing Policies
+
+Our fix scripts are designed to handle cases where policies may already exist by first dropping all potentially conflicting policies before creating new ones. This prevents errors like "policy X already exists" and ensures a clean implementation.
 
 ## Affected Tables
 

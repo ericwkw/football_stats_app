@@ -3,9 +3,12 @@
 
 BEGIN;
 
--- Drop existing policies for matches table
+-- Drop ALL existing policies for matches table
 DROP POLICY IF EXISTS "Allow public read access" ON public.matches;
 DROP POLICY IF EXISTS "Allow admin write access" ON public.matches;
+DROP POLICY IF EXISTS "Allow admin insert" ON public.matches;
+DROP POLICY IF EXISTS "Allow admin update" ON public.matches;
+DROP POLICY IF EXISTS "Allow admin delete" ON public.matches;
 DROP POLICY IF EXISTS "Allow admin write operations" ON public.matches;
 
 -- Create a single policy for SELECT that allows anyone to read

@@ -4,9 +4,13 @@
 BEGIN;
 
 -- Fix for matches table
--- Drop existing policies for matches table
+-- Drop ALL existing policies for matches table
 DROP POLICY IF EXISTS "Allow public read access" ON public.matches;
 DROP POLICY IF EXISTS "Allow admin write access" ON public.matches;
+DROP POLICY IF EXISTS "Allow admin insert" ON public.matches;
+DROP POLICY IF EXISTS "Allow admin update" ON public.matches;
+DROP POLICY IF EXISTS "Allow admin delete" ON public.matches;
+DROP POLICY IF EXISTS "Allow admin write operations" ON public.matches;
 
 -- Create a single policy for SELECT that allows anyone to read
 CREATE POLICY "Allow public read access" ON public.matches
@@ -28,9 +32,13 @@ FOR DELETE
 USING ((SELECT auth.role()) = 'authenticated');
 
 -- Fix for player_match_assignments table
--- Drop existing policies for player_match_assignments table
+-- Drop ALL existing policies for player_match_assignments table
 DROP POLICY IF EXISTS "Allow public read access" ON public.player_match_assignments;
 DROP POLICY IF EXISTS "Allow admin write access" ON public.player_match_assignments;
+DROP POLICY IF EXISTS "Allow admin insert" ON public.player_match_assignments;
+DROP POLICY IF EXISTS "Allow admin update" ON public.player_match_assignments;
+DROP POLICY IF EXISTS "Allow admin delete" ON public.player_match_assignments;
+DROP POLICY IF EXISTS "Allow admin write operations" ON public.player_match_assignments;
 
 -- Create a single policy for SELECT that allows anyone to read
 CREATE POLICY "Allow public read access" ON public.player_match_assignments
@@ -52,9 +60,13 @@ FOR DELETE
 USING ((SELECT auth.role()) = 'authenticated');
 
 -- Fix for player_match_stats table (preventive measure)
--- Drop existing policies for player_match_stats table
+-- Drop ALL existing policies for player_match_stats table
 DROP POLICY IF EXISTS "Allow public read access" ON public.player_match_stats;
 DROP POLICY IF EXISTS "Allow admin write access" ON public.player_match_stats;
+DROP POLICY IF EXISTS "Allow admin insert" ON public.player_match_stats;
+DROP POLICY IF EXISTS "Allow admin update" ON public.player_match_stats;
+DROP POLICY IF EXISTS "Allow admin delete" ON public.player_match_stats;
+DROP POLICY IF EXISTS "Allow admin write operations" ON public.player_match_stats;
 
 -- Create a single policy for SELECT that allows anyone to read
 CREATE POLICY "Allow public read access" ON public.player_match_stats
@@ -76,9 +88,13 @@ FOR DELETE
 USING ((SELECT auth.role()) = 'authenticated');
 
 -- Fix for players table (preventive measure)
--- Drop existing policies for players table
+-- Drop ALL existing policies for players table
 DROP POLICY IF EXISTS "Allow public read access" ON public.players;
 DROP POLICY IF EXISTS "Allow admin write access" ON public.players;
+DROP POLICY IF EXISTS "Allow admin insert" ON public.players;
+DROP POLICY IF EXISTS "Allow admin update" ON public.players;
+DROP POLICY IF EXISTS "Allow admin delete" ON public.players;
+DROP POLICY IF EXISTS "Allow admin write operations" ON public.players;
 
 -- Create a single policy for SELECT that allows anyone to read
 CREATE POLICY "Allow public read access" ON public.players
@@ -100,9 +116,13 @@ FOR DELETE
 USING ((SELECT auth.role()) = 'authenticated');
 
 -- Fix for teams table (preventive measure)
--- Drop existing policies for teams table
+-- Drop ALL existing policies for teams table
 DROP POLICY IF EXISTS "Allow public read access" ON public.teams;
 DROP POLICY IF EXISTS "Allow admin write access" ON public.teams;
+DROP POLICY IF EXISTS "Allow admin insert" ON public.teams;
+DROP POLICY IF EXISTS "Allow admin update" ON public.teams;
+DROP POLICY IF EXISTS "Allow admin delete" ON public.teams;
+DROP POLICY IF EXISTS "Allow admin write operations" ON public.teams;
 
 -- Create a single policy for SELECT that allows anyone to read
 CREATE POLICY "Allow public read access" ON public.teams

@@ -3,9 +3,13 @@
 
 BEGIN;
 
--- Drop existing policies for player_match_assignments table
+-- Drop ALL existing policies for player_match_assignments table
 DROP POLICY IF EXISTS "Allow public read access" ON public.player_match_assignments;
 DROP POLICY IF EXISTS "Allow admin write access" ON public.player_match_assignments;
+DROP POLICY IF EXISTS "Allow admin insert" ON public.player_match_assignments;
+DROP POLICY IF EXISTS "Allow admin update" ON public.player_match_assignments;
+DROP POLICY IF EXISTS "Allow admin delete" ON public.player_match_assignments;
+DROP POLICY IF EXISTS "Allow admin write operations" ON public.player_match_assignments;
 
 -- Create a single policy for SELECT that allows anyone to read
 CREATE POLICY "Allow public read access" ON public.player_match_assignments

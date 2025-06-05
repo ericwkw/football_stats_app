@@ -22,9 +22,15 @@ This change ensures that `auth.role()` is evaluated only once per query rather t
 
 ## Issue 2: Multiple Permissive Policies
 
-Supabase detected multiple permissive policies for the same role and action on the `public.matches` table:
-- "Allow admin write access" (FOR ALL, including SELECT)
-- "Allow public read access" (FOR SELECT)
+Supabase detected multiple permissive policies for the same role and action on multiple tables:
+
+1. `public.matches` table:
+   - "Allow admin write access" (FOR ALL, including SELECT)
+   - "Allow public read access" (FOR SELECT)
+
+2. `public.player_match_assignments` table:
+   - "Allow admin write access" (FOR ALL, including SELECT)
+   - "Allow public read access" (FOR SELECT)
 
 Having multiple permissive policies for the same role and action is suboptimal for performance, as each policy must be executed for every relevant query.
 
@@ -37,23 +43,23 @@ The fix involves creating separate policies for each specific action type to avo
 
 ```sql
 -- For read access (anyone can read)
-CREATE POLICY "Allow public read access" ON public.matches
+CREATE POLICY "Allow public read access" ON public.table_name
 FOR SELECT
 USING (true);
 
 -- For insert operations (only authenticated users)
-CREATE POLICY "Allow admin insert" ON public.matches
+CREATE POLICY "Allow admin insert" ON public.table_name
 FOR INSERT
 WITH CHECK ((SELECT auth.role()) = 'authenticated');
 
 -- For update operations (only authenticated users)
-CREATE POLICY "Allow admin update" ON public.matches
+CREATE POLICY "Allow admin update" ON public.table_name
 FOR UPDATE
 USING ((SELECT auth.role()) = 'authenticated')
 WITH CHECK ((SELECT auth.role()) = 'authenticated');
 
 -- For delete operations (only authenticated users)
-CREATE POLICY "Allow admin delete" ON public.matches
+CREATE POLICY "Allow admin delete" ON public.table_name
 FOR DELETE
 USING ((SELECT auth.role()) = 'authenticated');
 ```
@@ -74,11 +80,22 @@ The following tables had their RLS policies optimized:
 
 SQL files created to address these issues:
 
-1. `fix_teams_rls_policy.sql` - Fixes only the `teams` table RLS policy
-2. `fix_all_rls_policies.sql` - Comprehensive fix for the function evaluation issue
+1. `fix_teams_rls_policy.sql` - Fixes only the `teams` table RLS policy (function evaluation issue)
+2. `fix_all_rls_policies.sql` - Comprehensive fix for the function evaluation issue for all tables
 3. `fix_matches_rls_policy.sql` - Fixes the multiple permissive policies issue for the matches table
+4. `fix_player_match_assignments_rls_policy.sql` - Fixes the multiple permissive policies issue for the player_match_assignments table
+5. `fix_all_multiple_permissive_policies.sql` - Comprehensive fix for the multiple permissive policies issue for all tables
 
 The setup scripts (`complete_database_setup.sql` and `SUPABASE_SETUP.md`) were also updated to use the optimized approach for future deployments.
+
+### Running the Fixes
+
+To apply these fixes to your database, you can use the following shell scripts:
+
+1. `run_rls_fixes.sh` - Applies the function evaluation fixes
+2. `run_fix_matches_policy.sh` - Applies only the matches table multiple permissive policies fix
+3. `run_fix_player_match_assignments_policy.sh` - Applies only the player_match_assignments table multiple permissive policies fix
+4. `run_fix_all_multiple_policies.sh` - Applies the multiple permissive policies fix to all tables (recommended)
 
 ## Additional Information
 

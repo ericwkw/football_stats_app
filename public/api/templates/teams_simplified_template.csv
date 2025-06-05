@@ -1,0 +1,19 @@
+# Football Stats Teams Template - Super Simple Version
+# 
+# Instructions:
+# 1. Fill in the name and team_type columns for each team
+# 2. Use one of these predefined team names to get correct colors automatically:
+#    - Light Blue
+#    - Red 
+#    - Black
+#    - FCB United
+# 3. For team_type, use one of: internal, external, club
+#    (FCB United should be 'club', other teams are usually 'internal')
+# 
+# All fields with * are required.
+
+*name,*team_type
+Light Blue,internal
+Red,internal
+Black,internal
+FCB United,club 

@@ -104,11 +104,12 @@ CREATE POLICY "Allow public read access" ON player_match_stats FOR SELECT USING 
 CREATE POLICY "Allow public read access" ON player_match_assignments FOR SELECT USING (true);
 
 -- Create policies that allow authenticated users with admin role to modify data
-CREATE POLICY "Allow admin write access" ON teams FOR ALL USING (auth.role() = 'authenticated');
-CREATE POLICY "Allow admin write access" ON players FOR ALL USING (auth.role() = 'authenticated');
-CREATE POLICY "Allow admin write access" ON matches FOR ALL USING (auth.role() = 'authenticated');
-CREATE POLICY "Allow admin write access" ON player_match_stats FOR ALL USING (auth.role() = 'authenticated');
-CREATE POLICY "Allow admin write access" ON player_match_assignments FOR ALL USING (auth.role() = 'authenticated');
+-- Use subquery for better performance to avoid re-evaluating auth.role() for each row
+CREATE POLICY "Allow admin write access" ON teams FOR ALL USING ((SELECT auth.role()) = 'authenticated');
+CREATE POLICY "Allow admin write access" ON players FOR ALL USING ((SELECT auth.role()) = 'authenticated');
+CREATE POLICY "Allow admin write access" ON matches FOR ALL USING ((SELECT auth.role()) = 'authenticated');
+CREATE POLICY "Allow admin write access" ON player_match_stats FOR ALL USING ((SELECT auth.role()) = 'authenticated');
+CREATE POLICY "Allow admin write access" ON player_match_assignments FOR ALL USING ((SELECT auth.role()) = 'authenticated');
 ```
 
 ### 5. Add Sample Data (Optional)

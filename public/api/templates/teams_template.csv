@@ -1,0 +1,5 @@
+name,team_type,primary_shirt_color,secondary_shirt_color,logo_url,external_id,is_active
+Light Blue,internal,#79DBFB,,,light-blue-001,true
+Red,internal,#FF6188,,,red-001,true
+Black,internal,#000000,,,black-001,true
+FCB United,club,#5050f0,,,fcb-united-001,true 

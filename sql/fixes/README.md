@@ -27,6 +27,38 @@ Fixed in:
   - `get_player_match_statistics_nested`
   - `exec_sql` (though this intentionally uses SECURITY DEFINER for admin purposes)
 
+- `fix_additional_function_security.sql` - Adds `SECURITY INVOKER` and `SET search_path = public` to:
+  - `get_team_player_combinations`
+  - `get_team_statistics`
+  - `get_club_players`
+  - `get_internal_teams`
+  - `get_club_teams`
+  - `get_internal_teams_statistics`
+  - `get_club_team_statistics`
+
+- `fix_more_functions_security.sql` - Adds `SECURITY INVOKER` and `SET search_path = public` to:
+  - `get_head_to_head_stats`
+  - `get_team_player_statistics`
+  - `get_team_top_scorers`
+  - `get_player_win_impact`
+  - `get_internal_top_scorers`
+  - `get_club_top_scorers`
+  - `refresh_schema_cache`
+
+- `fix_more_functions_security_part2.sql` - Adds `SECURITY INVOKER` and `SET search_path = public` to:
+  - `get_all_player_statistics`
+  - `get_player_statistics`
+  - `get_player_combinations`
+  - `get_internal_all_player_statistics`
+  - `get_internal_player_statistics`
+  - `get_club_all_player_statistics`
+  - `get_club_player_statistics`
+
+- `fix_more_functions_security_part3.sql` - Adds `SECURITY INVOKER` and `SET search_path = public` to:
+  - `get_team_performance_with_player`
+  - `get_player_all_teams_impact`
+  - `get_player_team_combinations`
+
 ## Issue 3: Missing Fields in Leaderboard Views
 
 The frontend expects certain fields that were missing in some views.
@@ -54,8 +86,17 @@ Fixed in:
    - `fix_function_search_path.sql`
    - `fix_additional_function_search_paths.sql`
    - `fix_more_function_search_paths.sql`
+   - `fix_additional_function_security.sql`
+   - `fix_more_functions_security.sql`
+   - `fix_more_functions_security_part2.sql`
+   - `fix_more_functions_security_part3.sql`
    - `fix_leaderboard_views.sql`
    - `fix_player_view_own_goals.sql`
+
+Alternatively, you can run the `run_security_fixes.sh` script which will apply all fixes in the correct order:
+```
+./run_security_fixes.sh
+```
 
 ## Validation
 

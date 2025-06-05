@@ -1,6 +1,6 @@
 # Row Level Security (RLS) Policy Optimization
 
-## Issue
+## Issue 1: Inefficient Function Evaluation
 
 The application had an RLS performance issue with tables using the following pattern in their security policies:
 
@@ -10,7 +10,7 @@ CREATE POLICY "Allow admin write access" ON table_name FOR ALL USING (auth.role(
 
 This approach causes `auth.role()` to be re-evaluated for each row during queries, resulting in suboptimal performance at scale.
 
-## Solution
+### Solution
 
 The fix involves replacing direct function calls with subqueries, which are evaluated only once:
 
@@ -19,6 +19,33 @@ CREATE POLICY "Allow admin write access" ON table_name FOR ALL USING ((SELECT au
 ```
 
 This change ensures that `auth.role()` is evaluated only once per query rather than once per row, significantly improving performance for large tables.
+
+## Issue 2: Multiple Permissive Policies
+
+Supabase detected multiple permissive policies for the same role and action on the `public.matches` table:
+- "Allow admin write access" (FOR ALL, including SELECT)
+- "Allow public read access" (FOR SELECT)
+
+Having multiple permissive policies for the same role and action is suboptimal for performance, as each policy must be executed for every relevant query.
+
+### Solution
+
+The fix involves reorganizing the policies to avoid overlap:
+
+1. Create a dedicated SELECT policy that applies to all users
+2. Create a separate policy for write operations that only applies to authenticated users
+
+```sql
+-- For read access (anyone can read)
+CREATE POLICY "Allow public read access" ON public.matches
+FOR SELECT
+USING (true);
+
+-- For write operations (only authenticated users)
+CREATE POLICY "Allow admin write operations" ON public.matches
+FOR ALL
+WITH CHECK ((SELECT auth.role()) = 'authenticated');
+```
 
 ## Affected Tables
 
@@ -32,13 +59,14 @@ The following tables had their RLS policies optimized:
 
 ## Implementation
 
-Two SQL files were created to address this issue:
+SQL files created to address these issues:
 
 1. `fix_teams_rls_policy.sql` - Fixes only the `teams` table RLS policy
-2. `fix_all_rls_policies.sql` - Comprehensive fix for all tables with this issue
+2. `fix_all_rls_policies.sql` - Comprehensive fix for the function evaluation issue
+3. `fix_matches_rls_policy.sql` - Fixes the multiple permissive policies issue for the matches table
 
 The setup scripts (`complete_database_setup.sql` and `SUPABASE_SETUP.md`) were also updated to use the optimized approach for future deployments.
 
 ## Additional Information
 
-This optimization follows the recommendation from Supabase documentation for handling RLS policies efficiently. For more information, see the [Supabase RLS documentation](https://supabase.com/docs/guides/auth/row-level-security). 
+These optimizations follow the recommendations from Supabase documentation for handling RLS policies efficiently. For more information, see the [Supabase RLS documentation](https://supabase.com/docs/guides/auth/row-level-security). 

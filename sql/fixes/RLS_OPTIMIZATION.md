@@ -30,10 +30,10 @@ Having multiple permissive policies for the same role and action is suboptimal f
 
 ### Solution
 
-The fix involves reorganizing the policies to avoid overlap:
+The fix involves creating separate policies for each specific action type to avoid overlap:
 
 1. Create a dedicated SELECT policy that applies to all users
-2. Create a separate policy for write operations that only applies to authenticated users
+2. Create separate policies for each write operation (INSERT, UPDATE, DELETE) that only apply to authenticated users
 
 ```sql
 -- For read access (anyone can read)
@@ -41,11 +41,24 @@ CREATE POLICY "Allow public read access" ON public.matches
 FOR SELECT
 USING (true);
 
--- For write operations (only authenticated users)
-CREATE POLICY "Allow admin write operations" ON public.matches
-FOR ALL
+-- For insert operations (only authenticated users)
+CREATE POLICY "Allow admin insert" ON public.matches
+FOR INSERT
 WITH CHECK ((SELECT auth.role()) = 'authenticated');
+
+-- For update operations (only authenticated users)
+CREATE POLICY "Allow admin update" ON public.matches
+FOR UPDATE
+USING ((SELECT auth.role()) = 'authenticated')
+WITH CHECK ((SELECT auth.role()) = 'authenticated');
+
+-- For delete operations (only authenticated users)
+CREATE POLICY "Allow admin delete" ON public.matches
+FOR DELETE
+USING ((SELECT auth.role()) = 'authenticated');
 ```
+
+This approach ensures there is only one policy per action type, avoiding the performance penalty of multiple permissive policies.
 
 ## Affected Tables
 

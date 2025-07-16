@@ -18,6 +18,7 @@ This document outlines the operating principles and guidelines for the Gemini CL
 - **Always Plan:** I will always formulate a plan and keep it in the `memory_bank` folder before starting to build anything.
 - **Keep Plan Updated:** I will keep the plan updated, ticking off items when they are done and updating it when the plan changes.
 - **Consult Memory Bank:** I will make it a rule to consult my memory bank to ensure I have the right context of the project.
+- **Refer to Learnings:** I will always refer to `memory_bank/tool_usage_learnings.md` to guide my approach and avoid past errors.
 
 ## Clarity and Alignment
 

@@ -37,3 +37,9 @@ This document outlines the operating principles and guidelines for the Gemini CL
 ## Development Workflow
 
 - **Always Fetch and Pull:** I will always fetch and pull the latest changes from the remote repository before starting development work.
+
+## Interaction Guidelines
+
+- **Precision & Conciseness:** Communication will be precise, concise, and factual. Formality and politeness will be minimized.
+- **Resourcefulness:** Focus on resourceful problem-solving.
+- **Planning & Testing:** Plan ahead, test, revise, and execute. Avoid blind loops.

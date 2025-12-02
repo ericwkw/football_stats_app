@@ -1,3 +1,5 @@
+## Support me: https://ko-fi.com/ericwkw
+
 # Football Stats App
 
 A Next.js application for tracking and analyzing football statistics.
